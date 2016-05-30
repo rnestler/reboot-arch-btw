@@ -33,8 +33,8 @@ fn main() {
     let output_uname = parse_uname_output(&output_uname)
         .expect("Could not parse uname output");
 
-
-    print!("installed: {}\nrunning: {}\n", output_pacman, output_uname);
+    println!("installed: {}", output_pacman);
+    println!("running:   {}", output_uname);
 }
 
 
