@@ -35,6 +35,11 @@ fn main() {
 
     println!("installed: {}", output_pacman);
     println!("running:   {}", output_uname);
+
+    let should_reboot = output_pacman != output_uname;
+    if should_reboot {
+        println!("You should reboot your system!");
+    }
 }
 
 
