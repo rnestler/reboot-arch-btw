@@ -1,4 +1,7 @@
+extern crate notify_rust;
 use std::process::Command;
+
+use notify_rust::Notification;
 
 /// Parse the output of `pacman -Q linux`
 fn parse_pacman_output(pacman_ouput: &str) -> Option<&str> {
@@ -37,8 +40,14 @@ fn main() {
     println!("running:   {}", output_uname);
 
     let should_reboot = output_pacman != output_uname;
+
     if should_reboot {
         println!("You should reboot your system!");
+        Notification::new()
+            .summary("Reboot needed")
+            .body("Kernel got updated! You should reboot your system!")
+            .timeout(6000) //milliseconds
+            .show().unwrap();
     }
 }
 

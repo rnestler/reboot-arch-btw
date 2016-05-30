@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["Raphael Nestler <raphael.nestler@gmail.com>"]
 
 [dependencies]
+notify-rust = "3.0"
