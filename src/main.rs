@@ -1,5 +1,18 @@
 use std::process::Command;
 
+/// Parse the output of `pacman -Q linux`
+fn parse_pacman_output(pacman_ouput: &str) -> Option<&str> {
+    pacman_ouput.split_whitespace()
+        .skip(1)
+        .next()
+}
+
+/// Parse the output of `uname -r`
+fn parse_uname_output(uname_output: &str) -> Option<&str> {
+    uname_output.split("-ARCH")
+        .next()
+}
+
 fn main() {
     let output_pacman = Command::new("pacman")
         .arg("-Q")
@@ -8,9 +21,7 @@ fn main() {
         .expect("Could not execute pacman");
     // pacman output is in the form "linux version"
     let output_pacman = String::from_utf8_lossy(&output_pacman.stdout);
-    let output_pacman = output_pacman.split_whitespace()
-        .skip(1)
-        .next()
+    let output_pacman = parse_pacman_output(&output_pacman)
         .expect("Could not parse pacman output");
 
     // uname output is in the form version-ARCH
@@ -19,8 +30,7 @@ fn main() {
         .output()
         .expect("Could not execute uname");
     let output_uname = String::from_utf8_lossy(&output_uname.stdout);
-    let output_uname = output_uname.split("-ARCH")
-        .next()
+    let output_uname = parse_uname_output(&output_uname)
         .expect("Could not parse uname output");
 
 
