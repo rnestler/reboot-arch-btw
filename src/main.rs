@@ -37,3 +37,19 @@ fn main() {
     print!("installed: {}\nrunning: {}\n", output_pacman, output_uname);
 }
 
+
+#[cfg(test)]
+mod test {
+    use super::{parse_pacman_output, parse_uname_output};
+
+    #[test]
+    fn test_parse_pacman_output() {
+        assert_eq!(Some("4.5.4-1"), parse_pacman_output("linux 4.5.4-1"));
+    }
+
+    #[test]
+    fn test_parse_uname_output() {
+        assert_eq!(Some("4.5.4-1"), parse_uname_output("4.5.4-1-ARCH"));
+    }
+}
+
