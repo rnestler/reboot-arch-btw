@@ -1,7 +1,10 @@
 [package]
 name = "kernel-updated"
-version = "0.1.0"
-authors = ["Raphael Nestler <raphael.nestler@gmail.com>"]
+version = "0.1.1"
+authors = [
+  "Raphael Nestler <raphael.nestler@gmail.com>",
+  "Stefan Schindler <stefan@estada.ch>",
+]
 
 [dependencies]
 notify-rust = "3.0"
