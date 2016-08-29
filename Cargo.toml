@@ -5,3 +5,5 @@ authors = ["Raphael Nestler <raphael.nestler@gmail.com>"]
 
 [dependencies]
 notify-rust = "3.0"
+docopt = "0.6"
+rustc-serialize = "0.3"

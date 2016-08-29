@@ -1,7 +1,12 @@
 extern crate notify_rust;
+extern crate rustc_serialize;
+extern crate docopt;
+
+
 use std::process::Command;
 
 use notify_rust::Notification;
+use docopt::Docopt;
 
 /// Parse the output of `pacman -Q linux`
 fn parse_pacman_output(pacman_ouput: &str) -> Option<&str> {
@@ -16,7 +21,34 @@ fn parse_uname_output(uname_output: &str) -> Option<&str> {
         .next()
 }
 
+const USAGE: &'static str = "
+Check the currently installed kernel against the currently running one.
+
+Usage:
+  kernel-updated
+  kernel-updated (-h | --help)
+  kernel-updated --version
+
+Options:
+  -h --help     Show this screen.
+  --version     Show version.
+";
+
+#[derive(Debug, RustcDecodable)]
+struct Args {
+    flag_version: bool,
+}
+
+
 fn main() {
+    let args: Args = Docopt::new(USAGE)
+                            .and_then(|d| d.decode())
+                            .unwrap_or_else(|e| e.exit());
+    if args.flag_version {
+        println!("kernel-updated: {}", env!("CARGO_PKG_VERSION"));
+        return;
+    }
+    
     let output_pacman = Command::new("pacman")
         .arg("-Q")
         .arg("linux")
