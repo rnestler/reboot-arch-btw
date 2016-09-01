@@ -3,7 +3,7 @@ name = "kernel-updated"
 version = "0.1.1"
 dependencies = [
  "docopt 0.6.83 (registry+https://github.com/rust-lang/crates.io-index)",
- "notify-rust 3.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "notify-rust 3.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc-serialize 0.3.19 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -64,7 +64,7 @@ dependencies = [
 
 [[package]]
 name = "notify-rust"
-version = "3.1.1"
+version = "3.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "dbus 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
