@@ -69,16 +69,16 @@ fn main() {
         .output()
         .expect("Could not execute uname");
     let output_uname = String::from_utf8_lossy(&output_uname.stdout);
-    let output_uname = parse_uname_output(&output_uname)
+    let running_kernel_version = parse_uname_output(&output_uname)
         .expect("Could not parse uname output");
 
-    let output_pacman = get_package_version("linux")
+    let installed_kernel_version = get_package_version("linux")
         .expect("Could not get version of installed kernel");
 
-    println!("installed: {}", output_pacman);
-    println!("running:   {}", output_uname);
+    println!("installed: {}", installed_kernel_version);
+    println!("running:   {}", running_kernel_version);
 
-    let should_reboot = output_pacman != output_uname;
+    let should_reboot = installed_kernel_version != running_kernel_version;
 
     if should_reboot {
         println!("You should reboot your system!");
