@@ -15,6 +15,20 @@ fn parse_pacman_output(pacman_ouput: &str) -> Option<&str> {
         .next()
 }
 
+fn get_package_version(package_name: &str) -> Option<String> {
+    let output_pacman = Command::new("pacman")
+        .arg("-Q")
+        .arg(package_name)
+        .output()
+        .expect("Could not execute pacman");
+    // pacman output is in the form "package version"
+    let output_pacman = String::from_utf8_lossy(&output_pacman.stdout);
+
+    parse_pacman_output(&output_pacman)
+        .map(|output| output.to_string())
+}
+
+
 /// Parse the output of `uname -r`
 fn parse_uname_output(uname_output: &str) -> Option<&str> {
     uname_output.split("-ARCH")
@@ -49,16 +63,6 @@ fn main() {
         return;
     }
     
-    let output_pacman = Command::new("pacman")
-        .arg("-Q")
-        .arg("linux")
-        .output()
-        .expect("Could not execute pacman");
-    // pacman output is in the form "linux version"
-    let output_pacman = String::from_utf8_lossy(&output_pacman.stdout);
-    let output_pacman = parse_pacman_output(&output_pacman)
-        .expect("Could not parse pacman output");
-
     // uname output is in the form version-ARCH
     let output_uname = Command::new("uname")
         .arg("-r")
@@ -67,6 +71,9 @@ fn main() {
     let output_uname = String::from_utf8_lossy(&output_uname.stdout);
     let output_uname = parse_uname_output(&output_uname)
         .expect("Could not parse uname output");
+
+    let output_pacman = get_package_version("linux")
+        .expect("Could not get version of installed kernel");
 
     println!("installed: {}", output_pacman);
     println!("running:   {}", output_uname);
