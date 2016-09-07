@@ -8,11 +8,43 @@ use std::process::Command;
 use notify_rust::Notification;
 use docopt::Docopt;
 
+macro_rules! t {
+    ( $e : expr ) => (
+        match $e {
+            Some(r) => r,
+            None => return None,
+        }
+    )
+}
+
 /// Parse the output of `pacman -Q linux`
-fn parse_pacman_output(pacman_ouput: &str) -> Option<&str> {
-    pacman_ouput.split_whitespace()
-        .skip(1)
-        .next()
+fn parse_pacman_output(pacman_ouput: &str) -> Option<String> {
+    let second_part = t!(pacman_ouput.split_whitespace().skip(1).next());
+    parse_pacman_version(second_part)
+}
+
+/// Parse the many flavors of pacmans version strings
+fn parse_pacman_version(version_str: &str) -> Option<String> {
+    let mut main_patch_pkg = version_str.split("-");
+
+    let main_patch = t!(main_patch_pkg.next());
+    let pkg = t!(main_patch_pkg.next());
+
+    let mut main_patch = main_patch.split("_").clone();
+    let main = t!(main_patch.next());
+    let patch = match main_patch.next() {
+        Some(p) => format!("_{}", p),
+        None => "".into(),
+    };
+
+    // reconstruct a semver compatible string by appending ".0"s as needed
+    let mut main_split: Vec<_> = main.split(".").collect();
+    while main_split.len() < 3 {
+        main_split.push("0");
+    }
+    let main = main_split.join(".");
+
+    Some(format!("{}{}-{}", main, patch, pkg))
 }
 
 /// Parse the output of `uname -r`
@@ -90,17 +122,17 @@ mod test {
 
     #[test]
     fn test_parse_pacman_output() {
-        assert_eq!(Some("4.5.4-1"), parse_pacman_output("linux 4.5.4-1"));
+        assert_eq!(Some("4.5.4-1".into()), parse_pacman_output("linux 4.5.4-1"));
     }
 
     #[test]
     fn test_parse_pacman_zero_output_0() {
-        assert_eq!(Some("1.10.0_patch1-1"), parse_pacman_output("hdf5 1.10.0_patch1-1"));
+        assert_eq!(Some("1.10.0_patch1-1".into()), parse_pacman_output("hdf5 1.10.0_patch1-1"));
     }
 
     #[test]
     fn test_parse_pacman_zero_output_1() {
-        assert_eq!(Some("4.7.0-2"), parse_pacman_output("usbip 4.7-2
+        assert_eq!(Some("4.7.0-2".into()), parse_pacman_output("usbip 4.7-2
 "));
     }
 
