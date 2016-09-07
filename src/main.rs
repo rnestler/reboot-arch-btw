@@ -94,6 +94,17 @@ mod test {
     }
 
     #[test]
+    fn test_parse_pacman_zero_output_0() {
+        assert_eq!(Some("1.10.0_patch1-1"), parse_pacman_output("hdf5 1.10.0_patch1-1"));
+    }
+
+    #[test]
+    fn test_parse_pacman_zero_output_1() {
+        assert_eq!(Some("4.7.0-2"), parse_pacman_output("usbip 4.7-2
+"));
+    }
+
+    #[test]
     fn test_parse_uname_output() {
         assert_eq!(Some("4.5.4-1"), parse_uname_output("4.5.4-1-ARCH"));
     }
