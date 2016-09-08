@@ -1,6 +1,7 @@
 extern crate notify_rust;
 extern crate rustc_serialize;
 extern crate docopt;
+extern crate alpm;
 
 
 use std::process::Command;
@@ -17,11 +18,6 @@ macro_rules! t {
     )
 }
 
-/// Parse the output of `pacman -Q linux`
-fn parse_pacman_output(pacman_ouput: &str) -> Option<String> {
-    let second_part = t!(pacman_ouput.split_whitespace().skip(1).next());
-    parse_pacman_version(second_part)
-}
 
 /// Parse the many flavors of pacmans version strings
 fn parse_pacman_version(version_str: &str) -> Option<String> {
@@ -81,14 +77,9 @@ fn main() {
         return;
     }
     
-    let output_pacman = Command::new("pacman")
-        .arg("-Q")
-        .arg("linux")
-        .output()
-        .expect("Could not execute pacman");
-    // pacman output is in the form "linux version"
-    let output_pacman = String::from_utf8_lossy(&output_pacman.stdout);
-    let output_pacman = parse_pacman_output(&output_pacman)
+    let pacman = alpm::Alpm::new().unwrap();
+    let output_pacman = pacman.query_package_version("linux").unwrap();
+    let output_pacman = parse_pacman_version(&output_pacman)
         .expect("Could not parse pacman output");
 
     // uname output is in the form version-ARCH
@@ -118,22 +109,21 @@ fn main() {
 
 #[cfg(test)]
 mod test {
-    use super::{parse_pacman_output, parse_uname_output};
+    use super::{parse_pacman_version, parse_uname_output};
 
     #[test]
     fn test_parse_pacman_output() {
-        assert_eq!(Some("4.5.4-1".into()), parse_pacman_output("linux 4.5.4-1"));
+        assert_eq!(Some("4.5.4-1".into()), parse_pacman_version("4.5.4-1"));
     }
 
     #[test]
     fn test_parse_pacman_zero_output_0() {
-        assert_eq!(Some("1.10.0_patch1-1".into()), parse_pacman_output("hdf5 1.10.0_patch1-1"));
+        assert_eq!(Some("1.10.0_patch1-1".into()), parse_pacman_version("1.10.0_patch1-1"));
     }
 
     #[test]
     fn test_parse_pacman_zero_output_1() {
-        assert_eq!(Some("4.7.0-2".into()), parse_pacman_output("usbip 4.7-2
-"));
+        assert_eq!(Some("4.7.0-2".into()), parse_pacman_version("4.7-2"));
     }
 
     #[test]
