@@ -3,6 +3,7 @@ rust:
   - 1.18.0
   - stable
   - beta
+cache: cargo
 addons:
   apt:
     packages:
