@@ -1,5 +1,6 @@
+#[macro_use]
+extern crate serde_derive;
 extern crate notify_rust;
-extern crate rustc_serialize;
 extern crate docopt;
 
 
@@ -59,7 +60,7 @@ Options:
   --version     Show version.
 ";
 
-#[derive(Debug, RustcDecodable)]
+#[derive(Debug, Deserialize)]
 struct Args {
     flag_version: bool,
 }
@@ -67,7 +68,7 @@ struct Args {
 
 fn main() {
     let args: Args = Docopt::new(USAGE)
-                            .and_then(|d| d.decode())
+                            .and_then(|d| d.deserialize())
                             .unwrap_or_else(|e| e.exit());
     if args.flag_version {
         println!("kernel-updated: {}", env!("CARGO_PKG_VERSION"));
