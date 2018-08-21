@@ -31,9 +31,8 @@ fn get_package_version(package_name: &str) -> Option<String> {
 
 
 /// Parse the output of `uname -r`
-fn parse_uname_output(uname_output: &str) -> Option<&str> {
-    uname_output.split("-ARCH")
-        .next()
+fn parse_uname_output(uname_output: &str) -> Option<String> {
+    uname_output.split("-ARCH").next().map(|normalized| normalized.replace("-arch", ".arch"))
 }
 
 
@@ -127,8 +126,18 @@ mod test {
     }
 
     #[test]
+    fn test_parse_new_pacman_output() {
+        assert_eq!(Some("4.18.3.arch1-1"), parse_pacman_output("linux 4.18.3.arch1-1"));
+    }
+
+    #[test]
+    fn test_parse_new_uname_output() {
+        assert_eq!(Some("4.18.3.arch1-1".to_owned()), parse_uname_output("4.18.3-arch1-1-ARCH"));
+    }
+
+    #[test]
     fn test_parse_uname_output() {
-        assert_eq!(Some("4.5.4-1"), parse_uname_output("4.5.4-1-ARCH"));
+        assert_eq!(Some("4.5.4-1".to_owned()), parse_uname_output("4.5.4-1-ARCH"));
     }
 
     #[test]
