@@ -1,10 +1,21 @@
 [package]
 name = "reboot-arch-btw"
 version = "0.1.1"
+repository = "https://github.com/rnestler/reboot-arch-btw"
 license = "GPL-3.0-only"
 authors = [
   "Raphael Nestler <raphael.nestler@gmail.com>",
   "Stefan Schindler <stefan@estada.ch>",
+]
+description = "Check if you need to reboot due to an updated kernel. (I use Arch btw!)"
+readme = "README.md"
+keywords = ["i-use-arch-btw", "arch", "linux", "kernel"]
+categories = ["command-line-utilities"]
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "Cargo.lock",
+    "README.md",
 ]
 
 [dependencies]

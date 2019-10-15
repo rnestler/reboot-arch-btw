@@ -1,6 +1,6 @@
-[![Travis Build Status](https://travis-ci.org/rnestler/kernel-updated.svg?branch=master)](https://travis-ci.org/rnestler/kernel-updated)
-Kernel Updated
-==============
+[![Travis Build Status](https://travis-ci.org/rnestler/reboot-arch-btw.svg?branch=master)](https://travis-ci.org/rnestler/reboot-arch-btw)
+Reboot Arch BTW
+===============
 
 This is a small utility which shows the installed and running Linux kernel on
 [ArchLinux](https://www.archlinux.org). It is useful if one didn't notice that
@@ -25,7 +25,7 @@ Usage
 -----
 
 ```Shell
-% kernel-updated
+% reboot-arch-btw
 installed: 4.5.4-1
 running: 4.5.4-1
 ```
