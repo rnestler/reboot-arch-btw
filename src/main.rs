@@ -89,10 +89,10 @@ fn main() {
     let should_reboot = installed_kernel_version != running_kernel_version;
 
     if should_reboot {
-        println!("You should reboot your system!");
+        println!("You should reboot arch btw!");
         Notification::new()
-            .summary("Reboot needed")
-            .body("Kernel got updated! You should reboot your system!")
+            .summary("Reboot arch btw")
+            .body("Kernel got updated. You should reboot your system!")
             .timeout(6000) //milliseconds
             .show()
             .unwrap();
