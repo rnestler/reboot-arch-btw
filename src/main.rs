@@ -47,9 +47,9 @@ const USAGE: &'static str = "
 Check the currently installed kernel against the currently running one.
 
 Usage:
-  kernel-updated
-  kernel-updated (-h | --help)
-  kernel-updated --version
+  reboot-arch-btw
+  reboot-arch-btw (-h | --help)
+  reboot-arch-btw --version
 
 Options:
   -h --help     Show this screen.
@@ -66,7 +66,7 @@ fn main() {
         .and_then(|d| d.deserialize())
         .unwrap_or_else(|e| e.exit());
     if args.flag_version {
-        println!("kernel-updated: {}", env!("CARGO_PKG_VERSION"));
+        println!("reboot-arch-btw: {}", env!("CARGO_PKG_VERSION"));
         return;
     }
 
