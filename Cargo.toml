@@ -1,6 +1,7 @@
 [package]
 name = "reboot-arch-btw"
 version = "0.1.1"
+license = "GPL-3.0-only"
 authors = [
   "Raphael Nestler <raphael.nestler@gmail.com>",
   "Stefan Schindler <stefan@estada.ch>",
