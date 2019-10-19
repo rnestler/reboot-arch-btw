@@ -10,7 +10,7 @@ use notify_rust::Notification;
 
 /// Parse the output of `pacman -Q linux`
 fn parse_pacman_output(pacman_ouput: &str) -> Option<&str> {
-    pacman_ouput.split_whitespace().skip(1).next()
+    pacman_ouput.split_whitespace().nth(1)
 }
 
 fn get_package_version(package_name: &str) -> Option<String> {
@@ -43,7 +43,7 @@ fn parse_xdpyinfo_output(xdpyinfo_output: &str) -> Option<&str> {
     None
 }
 
-const USAGE: &'static str = "
+const USAGE: &str = "
 Check the currently installed kernel against the currently running one.
 
 Usage:
