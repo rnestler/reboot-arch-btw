@@ -118,30 +118,14 @@ mod test {
 
     #[test]
     fn test_parse_pacman_output() {
-        assert_eq!(Some("4.5.4-1"), parse_pacman_output("linux 4.5.4-1"));
-    }
-
-    #[test]
-    fn test_parse_new_pacman_output() {
-        assert_eq!(
-            Some("4.18.3.arch1-1"),
-            parse_pacman_output("linux 4.18.3.arch1-1")
-        );
-    }
-
-    #[test]
-    fn test_parse_new_uname_output() {
-        assert_eq!(
-            Some("4.18.3.arch1-1".to_owned()),
-            parse_uname_output("4.18.3-arch1-1-ARCH")
-        );
+        assert_eq!(Some("5.3.11.1-1"), parse_pacman_output("linux 5.3.11.1-1"));
     }
 
     #[test]
     fn test_parse_uname_output() {
         assert_eq!(
-            Some("4.5.4-1".to_owned()),
-            parse_uname_output("4.5.4-1-ARCH")
+            Some("5.3.11.1-1".to_owned()),
+            parse_uname_output("5.3.11-arch1-1")
         );
     }
 
