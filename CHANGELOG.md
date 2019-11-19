@@ -5,9 +5,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.2] - 2019-11-19
+
+ * Fix detection of running kernel version
+   ([#26](https://github.com/rnestler/reboot-arch-btw/pull/26))
+
 ## [v0.1.1] - 2019-10-15
 
  * First public release
 
-[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v0.1.1...master
+[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v0.1.2...master
+[v0.1.2]: https://github.com/rnestler/reboot-arch-btw/releases/tag/v0.1.1..v0.1.2
 [v0.1.1]: https://github.com/rnestler/reboot-arch-btw/releases/tag/v0.1.1
