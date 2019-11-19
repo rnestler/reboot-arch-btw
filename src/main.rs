@@ -27,10 +27,7 @@ fn get_package_version(package_name: &str) -> Option<String> {
 
 /// Parse the output of `uname -r`
 fn parse_uname_output(uname_output: &str) -> Option<String> {
-    uname_output
-        .split("-ARCH")
-        .next()
-        .map(|normalized| normalized.replace("-arch", ".arch"))
+    Some(uname_output.trim().replace("-arch", "."))
 }
 
 /// Parse the output of `xdpyinfo`
