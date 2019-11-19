@@ -32,7 +32,11 @@ Usage
 -----
 
 ```Shell
-% reboot-arch-btw
-installed: 4.5.4-1
-running: 4.5.4-1
+$ reboot-arch-btw
+Kernel
+ installed: 5.3.11.1-1
+ running:   5.3.11.1-1
+Xorg server
+ installed: 1.20.5-4
+ running: 1.20.5
 ```
