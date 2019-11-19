@@ -10,6 +10,13 @@ needed kernel module can't get loaded.
 To get the version of the installed kernel it uses `pacman -Q linux` and to get
 the version of the running kernel it uses `uname -r`.
 
+Install
+-------
+
+You may just install it from the AUR:
+ * https://aur.archlinux.org/packages/reboot-arch-btw for the latest release
+ * https://aur.archlinux.org/packages/reboot-arch-btw-git for the latest master
+
 Build
 -----
 
