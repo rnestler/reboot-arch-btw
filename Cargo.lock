@@ -333,7 +333,7 @@ dependencies = [
 
 [[package]]
 name = "reboot-arch-btw"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "docopt 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "notify-rust 3.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
