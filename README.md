@@ -13,11 +13,11 @@ the version of the running kernel it uses `uname -r`.
 Build
 -----
 
-This project requires Rust 1.32.0 or newer. Also you need to have
-libdbus-glib-1-dev installed.
+This project requires Rust 1.32.0 or newer. Also you need to have dbus
+installed.
 
 ```Shell
-sudo apt install libdbus-glib-1-dev
+sudo pacman -S dbus
 cargo build
 ```
 
@@ -29,4 +29,3 @@ Usage
 installed: 4.5.4-1
 running: 4.5.4-1
 ```
-
