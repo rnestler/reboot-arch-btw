@@ -106,7 +106,7 @@ fn main() {
 
     println!("Xorg server");
     println!(" installed: {}", installed_xorg_version);
-    println!(" running: {}", running_xorg_version);
+    println!(" running:   {}", running_xorg_version);
 }
 
 #[cfg(test)]

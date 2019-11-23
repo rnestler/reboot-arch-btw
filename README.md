@@ -38,5 +38,5 @@ Kernel
  running:   5.3.11.1-1
 Xorg server
  installed: 1.20.5-4
- running: 1.20.5
+ running:   1.20.5
 ```
