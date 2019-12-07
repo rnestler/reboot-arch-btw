@@ -9,8 +9,11 @@ use docopt::Docopt;
 use notify_rust::Notification;
 
 /// Parse the output of `pacman -Q linux`
-fn parse_pacman_output(pacman_ouput: &str) -> Option<&str> {
-    pacman_ouput.split_whitespace().nth(1)
+fn parse_pacman_output(pacman_ouput: &str) -> Option<String> {
+    pacman_ouput
+        .split_whitespace()
+        .nth(1)
+        .map(|version| version.trim().replace(".arch", "."))
 }
 
 fn get_package_version(package_name: &str) -> Option<String> {
@@ -115,7 +118,14 @@ mod test {
 
     #[test]
     fn test_parse_pacman_output() {
-        assert_eq!(Some("5.3.11.1-1"), parse_pacman_output("linux 5.3.11.1-1"));
+        assert_eq!(
+            Some("5.3.11.1-1".to_owned()),
+            parse_pacman_output("linux 5.3.11.1-1")
+        );
+        assert_eq!(
+            Some("5.4.1.1-1".to_owned()),
+            parse_pacman_output("linux 5.4.1.arch1-1")
+        );
     }
 
     #[test]
@@ -123,6 +133,10 @@ mod test {
         assert_eq!(
             Some("5.3.11.1-1".to_owned()),
             parse_uname_output("5.3.11-arch1-1")
+        );
+        assert_eq!(
+            Some("5.4.1.1-1".to_owned()),
+            parse_uname_output("5.4.1-arch1-1")
         );
     }
 
