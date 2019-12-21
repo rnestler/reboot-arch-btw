@@ -100,16 +100,18 @@ fn main() {
 
     let output_xdpyinfo = Command::new("xdpyinfo")
         .output()
-        .expect("Could not execute xdpyinfo");
-    let output_xdpyinfo = String::from_utf8_lossy(&output_xdpyinfo.stdout);
-    let running_xorg_version =
-        parse_xdpyinfo_output(&output_xdpyinfo).expect("Could not parse xdpyinfo output");
-    let installed_xorg_version =
-        get_package_version("xorg-server").expect("Could not get version of installed xserver");
+        .map_err(|err| println!("Could not execute xdpyinfo: {}", err));
+    if let Ok(output_xdpyinfo) = output_xdpyinfo {
+        let output_xdpyinfo = String::from_utf8_lossy(&output_xdpyinfo.stdout);
+        let running_xorg_version =
+            parse_xdpyinfo_output(&output_xdpyinfo).expect("Could not parse xdpyinfo output");
+        let installed_xorg_version =
+            get_package_version("xorg-server").expect("Could not get version of installed xserver");
 
-    println!("Xorg server");
-    println!(" installed: {}", installed_xorg_version);
-    println!(" running:   {}", running_xorg_version);
+        println!("Xorg server");
+        println!(" installed: {}", installed_xorg_version);
+        println!(" running:   {}", running_xorg_version);
+    }
 }
 
 #[cfg(test)]
