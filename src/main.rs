@@ -1,36 +1,69 @@
 #[macro_use]
 extern crate serde_derive;
+extern crate alpm;
 extern crate docopt;
 extern crate notify_rust;
 
 use std::process::Command;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 use docopt::Docopt;
 use notify_rust::Notification;
 
-/// Parse the output of `pacman -Q linux`
-fn parse_pacman_output(pacman_ouput: &str) -> Option<String> {
-    pacman_ouput
-        .split_whitespace()
-        .nth(1)
-        .map(|version| version.trim().replace(".arch", "."))
+struct PackageInfo {
+    version: String,
+    install_date: Option<i64>,
 }
 
-fn get_package_version(package_name: &str) -> Option<String> {
-    let output_pacman = Command::new("pacman")
-        .arg("-Q")
-        .arg(package_name)
-        .output()
-        .expect("Could not execute pacman");
-    // pacman output is in the form "package version"
-    let output_pacman = String::from_utf8_lossy(&output_pacman.stdout);
+impl PackageInfo {
+    fn from_package(pkg: &alpm::Package) -> Self {
+        Self {
+            version: Self::cleanup_pkg_version(pkg.version()),
+            install_date: pkg.install_date(),
+        }
+    }
 
-    parse_pacman_output(&output_pacman).map(|output| output.to_string())
+    /// Clean up Arch package versions.
+    #[inline]
+    fn cleanup_pkg_version(raw_version: &str) -> String {
+        raw_version.replace(".arch", "-arch")
+    }
+
+    /// Return a string representing the "time ago" when this package was
+    /// installed.
+    fn installed_reltime(&self) -> String {
+        let install_date = match self.install_date {
+            Some(d) => d,
+            None => return "unknown".to_string(),
+        } as u64;
+        let now = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("Time went backwards!")
+            .as_secs();
+        let delta = now - install_date;
+        if delta < 60 {
+            format!("{} seconds ago", delta)
+        } else if delta < 7200 {
+            format!("{} minutes ago", delta / 60)
+        } else if delta < 3600 * 36 {
+            format!("{} hours ago", delta / 3600)
+        } else {
+            format!("{} days ago", delta / (3600 * 24))
+        }
+    }
+
+    #[inline]
+    fn version_matches(&self, other_version: &str) -> bool {
+        self.version == other_version
+    }
 }
 
-/// Parse the output of `uname -r`
-fn parse_uname_output(uname_output: &str) -> Option<String> {
-    Some(uname_output.trim().replace("-arch", "."))
+fn get_package_version(db: &alpm::Db, package_name: &str) -> Option<PackageInfo> {
+    let pkg = match db.pkg(package_name) {
+        Ok(pkg) => pkg,
+        Err(_) => return None,
+    };
+    Some(PackageInfo::from_package(&pkg))
 }
 
 /// Parse the output of `xdpyinfo`
@@ -70,24 +103,31 @@ fn main() {
         return;
     }
 
+    // Initialize Pacman database
+    let alpm = alpm::Alpm::new("/", "/var/lib/pacman/")
+        .expect("Could not open pacman database at /var/lib/pacman");
+    let db = alpm.localdb();
+
     // uname output is in the form version-ARCH
     let output_uname = Command::new("uname")
         .arg("-r")
         .output()
         .expect("Could not execute uname");
-    let output_uname = String::from_utf8_lossy(&output_uname.stdout);
-    let running_kernel_version =
-        parse_uname_output(&output_uname).expect("Could not parse uname output");
+    let output_uname_stdout = String::from_utf8_lossy(&output_uname.stdout);
+    let running_kernel_version = output_uname_stdout.trim();
 
-    let installed_kernel_version =
-        get_package_version("linux").expect("Could not get version of installed kernel");
+    let installed_kernel =
+        get_package_version(&db, "linux").expect("Could not get version of installed kernel");
 
     println!("Kernel");
-    println!(" installed: {}", installed_kernel_version);
+    println!(
+        " installed: {} (since {})",
+        installed_kernel.version,
+        installed_kernel.installed_reltime()
+    );
     println!(" running:   {}", running_kernel_version);
 
-    let should_reboot = installed_kernel_version != running_kernel_version;
-
+    let should_reboot = !installed_kernel.version_matches(&running_kernel_version);
     if should_reboot {
         println!("You should reboot arch btw!");
         Notification::new()
@@ -105,41 +145,43 @@ fn main() {
         let output_xdpyinfo = String::from_utf8_lossy(&output_xdpyinfo.stdout);
         let running_xorg_version =
             parse_xdpyinfo_output(&output_xdpyinfo).expect("Could not parse xdpyinfo output");
-        let installed_xorg_version =
-            get_package_version("xorg-server").expect("Could not get version of installed xserver");
+        let installed_xorg = get_package_version(&db, "xorg-server")
+            .expect("Could not get version of installed xserver");
 
         println!("Xorg server");
-        println!(" installed: {}", installed_xorg_version);
+        println!(
+            " installed: {} (since {})",
+            installed_xorg.version,
+            installed_xorg.installed_reltime()
+        );
         println!(" running:   {}", running_xorg_version);
     }
 }
 
 #[cfg(test)]
 mod test {
-    use super::{parse_pacman_output, parse_uname_output, parse_xdpyinfo_output};
+    use super::*;
 
     #[test]
-    fn test_parse_pacman_output() {
+    fn test_cleanup_pkg_version() {
         assert_eq!(
-            Some("5.3.11.1-1".to_owned()),
-            parse_pacman_output("linux 5.3.11.1-1")
+            PackageInfo::cleanup_pkg_version("5.3.11.1-1"),
+            "5.3.11.1-1".to_owned(),
         );
         assert_eq!(
-            Some("5.4.1.1-1".to_owned()),
-            parse_pacman_output("linux 5.4.1.arch1-1")
+            PackageInfo::cleanup_pkg_version("5.4.1.arch1-1"),
+            "5.4.1-arch1-1".to_owned(),
         );
     }
 
     #[test]
-    fn test_parse_uname_output() {
-        assert_eq!(
-            Some("5.3.11.1-1".to_owned()),
-            parse_uname_output("5.3.11-arch1-1")
-        );
-        assert_eq!(
-            Some("5.4.1.1-1".to_owned()),
-            parse_uname_output("5.4.1-arch1-1")
-        );
+    fn test_version_matches() {
+        let ver = "5.3.11-arch1-1";
+        let info = PackageInfo {
+            version: ver.to_string(),
+            install_date: None,
+        };
+        assert!(info.version_matches(ver));
     }
 
     #[test]
