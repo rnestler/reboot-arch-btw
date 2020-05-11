@@ -3,7 +3,7 @@ jobs:
 
   test:
     docker:
-      - image: rust:1.32
+      - image: archlinux
     steps:
       - checkout
       - restore_cache:
@@ -11,11 +11,11 @@ jobs:
             - v1-cargo-cache-{{ arch }}-{{ .Branch }}
             - v1-cargo-cache-{{ arch }}
       - run:
-          name: Install dependencies
-          command: apt-get update && apt-get install -y libdbus-glib-1-dev
+          name: Install rustup and dbus
+          command: pacman --noconfirm -Sy rustup dbus gcc pkg-config
       - run:
-          name: Show versions
-          command: rustc --version && cargo --version
+          name: Install rustc
+          command: rustup install 1.32.0
       - run:
           name: Build
           command: cargo build
