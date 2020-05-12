@@ -7,8 +7,9 @@ This is a small utility which shows the installed and running Linux kernel on
 the kernel got updated and suddenly your USB drive won't mount because the
 needed kernel module can't get loaded.
 
-To get the version of the installed kernel it uses `pacman -Q linux` and to get
-the version of the running kernel it uses `uname -r`.
+To get the version of the installed kernel it uses libalpm (shipped with
+pacman) to query the local pacman database. To get the version of the running
+kernel it uses `uname -r`.
 
 Install
 -------
@@ -34,9 +35,9 @@ Usage
 ```Shell
 $ reboot-arch-btw
 Kernel
- installed: 5.3.11.1-1
- running:   5.3.11.1-1
+ installed: 5.6.10-arch1-1 (since 3 days ago)
+ running:   5.6.10-arch1-1
 Xorg server
- installed: 1.20.5-4
- running:   1.20.5
+ installed: 1.20.8-2 (since 3 days ago)
+ running:   1.20.8
 ```
