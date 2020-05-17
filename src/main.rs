@@ -1,8 +1,7 @@
-#[macro_use]
-extern crate serde_derive;
-extern crate alpm;
-extern crate docopt;
-extern crate notify_rust;
+use alpm;
+use docopt;
+use notify_rust;
+use serde_derive::Deserialize;
 
 use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
