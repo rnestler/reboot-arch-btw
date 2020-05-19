@@ -25,7 +25,7 @@ impl PackageInfo {
     /// Clean up Arch package versions.
     #[inline]
     fn cleanup_pkg_version(raw_version: &str) -> String {
-        raw_version.replace(".arch", "-arch")
+        raw_version.replace("-", ".")
     }
 
     /// Return a string representing the "time ago" when this package was
@@ -71,12 +71,12 @@ impl KernelInfo {
         // if the last part is text it is a kernel variant
         if last_part.chars().all(char::is_alphabetic) {
             Some(KernelInfo {
-                version: uname_output[0..last_dash].to_string(),
+                version: uname_output[0..last_dash].replace("-", "."),
                 variant: Some(uname_output[last_dash + 1..].to_string()),
             })
         } else {
             Some(KernelInfo {
-                version: uname_output.to_string(),
+                version: uname_output.replace("-", "."),
                 variant: None,
             })
         }
@@ -199,11 +199,11 @@ mod test {
     fn test_cleanup_pkg_version() {
         assert_eq!(
             PackageInfo::cleanup_pkg_version("5.3.11.1-1"),
-            "5.3.11.1-1".to_owned(),
+            "5.3.11.1.1".to_owned(),
         );
         assert_eq!(
             PackageInfo::cleanup_pkg_version("5.4.1.arch1-1"),
-            "5.4.1-arch1-1".to_owned(),
+            "5.4.1.arch1.1".to_owned(),
         );
     }
 
@@ -230,7 +230,7 @@ mod test {
         let kernel_version = KernelInfo::from_uname_output("5.6.13-arch1-1");
         assert_eq!(
             Some(KernelInfo {
-                version: "5.6.13-arch1-1".to_string(),
+                version: "5.6.13.arch1.1".to_string(),
                 variant: None,
             }),
             kernel_version
@@ -242,7 +242,7 @@ mod test {
         let kernel_version = KernelInfo::from_uname_output("5.6.11-zen1-1-zen");
         assert_eq!(
             Some(KernelInfo {
-                version: "5.6.11-zen1-1".to_owned(),
+                version: "5.6.11.zen1.1".to_owned(),
                 variant: Some("zen".to_owned()),
             }),
             kernel_version
