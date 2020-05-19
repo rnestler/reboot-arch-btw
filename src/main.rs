@@ -66,13 +66,13 @@ struct KernelInfo {
 impl KernelInfo {
     pub fn from_uname_output(uname_output: &str) -> Option<KernelInfo> {
         let uname_output = uname_output.trim();
-        let last_part = uname_output.split('-').last()?;
         let last_dash = uname_output.rfind('-')?;
+        let last_part = &uname_output[last_dash + 1..];
         // if the last part is text it is a kernel variant
         if last_part.chars().all(char::is_alphabetic) {
             Some(KernelInfo {
                 version: uname_output[0..last_dash].replace("-", "."),
-                variant: Some(uname_output[last_dash + 1..].to_string()),
+                variant: Some(last_part.to_string()),
             })
         } else {
             Some(KernelInfo {
