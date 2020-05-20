@@ -1,4 +1,4 @@
-[![Travis Build Status](https://travis-ci.org/rnestler/reboot-arch-btw.svg?branch=master)](https://travis-ci.org/rnestler/reboot-arch-btw)
+[![CircleCI status](https://circleci.com/gh/rnestler/reboot-arch-btw.svg?style=shield)](https://circleci.com/gh/rnestler/reboot-arch-btw/tree/master)
 Reboot Arch BTW
 ===============
 
