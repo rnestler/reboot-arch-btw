@@ -20,12 +20,12 @@ jobs:
           key: v1-cargo-cache-{{ arch }}-{{ .Branch }}
           paths:
             - target
-            - /usr/local/cargo
+            - /root/.cargo
       - save_cache:
           key: v1-cargo-cache-{{ arch }}
           paths:
             - target
-            - /usr/local/cargo
+            - /root/.cargo
   lint:
     docker:
       - image: rnestler/archlinux-rust:1.42.0
@@ -39,7 +39,7 @@ jobs:
       - save_cache:
           key: v1-cargo-lint-cache
           paths:
-            - /usr/local/cargo
+            - /root/.cargo
   fmt:
     docker:
       - image: rnestler/archlinux-rust:1.42.0
@@ -53,7 +53,7 @@ jobs:
       - save_cache:
           key: v1-cargo-lint-cache
           paths:
-            - /usr/local/cargo
+            - /root/.cargo
   audit:
     docker:
       - image: rnestler/archlinux-rust:1.42.0
@@ -71,7 +71,7 @@ jobs:
       - save_cache:
           key: v1-cargo-audit-cache
           paths:
-            - /usr/local/cargo
+            - /root/.cargo
 
 workflows:
   version: 2
