@@ -28,15 +28,12 @@ jobs:
             - /usr/local/cargo
   lint:
     docker:
-      - image: rust:1.32
+      - image: rnestler/archlinux-rust:1.42.0
     steps:
       - checkout
       - restore_cache:
           keys:
             - v1-cargo-lint-cache
-      - run:
-          name: Install dependencies
-          command: apt-get update && apt-get install -y libdbus-glib-1-dev
       - run: rustup component add clippy
       - run: cargo clippy --all-targets --all-features -- -D warnings
       - save_cache:
@@ -45,7 +42,7 @@ jobs:
             - /usr/local/cargo
   fmt:
     docker:
-      - image: rust:1.32
+      - image: rnestler/archlinux-rust:1.42.0
     steps:
       - checkout
       - restore_cache:
@@ -59,7 +56,7 @@ jobs:
             - /usr/local/cargo
   audit:
     docker:
-      - image: rust:latest
+      - image: rnestler/archlinux-rust:1.42.0
     steps:
       - checkout
       - restore_cache:
