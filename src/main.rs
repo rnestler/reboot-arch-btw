@@ -25,7 +25,7 @@ impl PackageInfo {
     /// Clean up Arch package versions.
     #[inline]
     fn cleanup_pkg_version(raw_version: &str) -> String {
-        raw_version.replace(".arch", "-arch")
+        raw_version.replace("-", ".")
     }
 
     /// Return a string representing the "time ago" when this package was
@@ -54,6 +54,32 @@ impl PackageInfo {
     #[inline]
     fn version_matches(&self, other_version: &str) -> bool {
         self.version == other_version
+    }
+}
+
+#[derive(Debug, PartialEq, Eq)]
+struct KernelInfo {
+    version: String,
+    variant: Option<String>,
+}
+
+impl KernelInfo {
+    pub fn from_uname_output(uname_output: &str) -> Option<KernelInfo> {
+        let uname_output = uname_output.trim();
+        let last_dash = uname_output.rfind('-')?;
+        let last_part = &uname_output[last_dash + 1..];
+        // if the last part is text it is a kernel variant
+        if last_part.chars().all(char::is_alphabetic) {
+            Some(KernelInfo {
+                version: uname_output[0..last_dash].replace("-", "."),
+                variant: Some(last_part.to_string()),
+            })
+        } else {
+            Some(KernelInfo {
+                version: uname_output.replace("-", "."),
+                variant: None,
+            })
+        }
     }
 }
 
@@ -113,10 +139,18 @@ fn main() {
         .output()
         .expect("Could not execute uname");
     let output_uname_stdout = String::from_utf8_lossy(&output_uname.stdout);
-    let running_kernel_version = output_uname_stdout.trim();
+    let kernel_info =
+        KernelInfo::from_uname_output(&output_uname_stdout).expect("Failed to parse uname output");
+    let running_kernel_version = kernel_info.version;
 
-    let installed_kernel =
-        get_package_version(&db, "linux").expect("Could not get version of installed kernel");
+    let kernel_package = if let Some(variant) = kernel_info.variant {
+        format!("linux-{}", variant)
+    } else {
+        "linux".to_owned()
+    };
+
+    let installed_kernel = get_package_version(&db, &kernel_package)
+        .expect("Could not get version of installed kernel");
 
     println!("Kernel");
     println!(
@@ -165,11 +199,11 @@ mod test {
     fn test_cleanup_pkg_version() {
         assert_eq!(
             PackageInfo::cleanup_pkg_version("5.3.11.1-1"),
-            "5.3.11.1-1".to_owned(),
+            "5.3.11.1.1".to_owned(),
         );
         assert_eq!(
             PackageInfo::cleanup_pkg_version("5.4.1.arch1-1"),
-            "5.4.1-arch1-1".to_owned(),
+            "5.4.1.arch1.1".to_owned(),
         );
     }
 
@@ -188,6 +222,30 @@ mod test {
         assert_eq!(
             Some("1.18.4"),
             parse_xdpyinfo_output("X.Org version: 1.18.4")
+        );
+    }
+
+    #[test]
+    fn test_kernel_version_from_uname_output_mainline() {
+        let kernel_version = KernelInfo::from_uname_output("5.6.13-arch1-1");
+        assert_eq!(
+            Some(KernelInfo {
+                version: "5.6.13.arch1.1".to_string(),
+                variant: None,
+            }),
+            kernel_version
+        );
+    }
+
+    #[test]
+    fn test_kernel_version_from_uname_output_zen() {
+        let kernel_version = KernelInfo::from_uname_output("5.6.11-zen1-1-zen");
+        assert_eq!(
+            Some(KernelInfo {
+                version: "5.6.11.zen1.1".to_owned(),
+                variant: Some("zen".to_owned()),
+            }),
+            kernel_version
         );
     }
 }
