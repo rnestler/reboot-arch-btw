@@ -21,7 +21,7 @@ You may just install it from the AUR:
 Build
 -----
 
-This project requires Rust 1.32.0 or newer. Also you need to have dbus
+This project requires Rust 1.42.0 or newer. Also you need to have dbus
 installed.
 
 ```Shell
