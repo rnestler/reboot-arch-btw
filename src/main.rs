@@ -1,6 +1,3 @@
-use alpm;
-use docopt;
-use notify_rust;
 use serde_derive::Deserialize;
 
 use std::process::Command;
