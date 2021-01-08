@@ -11,19 +11,19 @@ dependencies = [
 
 [[package]]
 name = "alpm"
-version = "0.9.0"
+version = "1.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3bb74d01ed86932b1f061d32715faec77104239140557cc6e4f7ce5da9bcfafd"
+checksum = "e834799ef219d0fce39b43998409e9c06e62c2446015a422d32b4fb4abfc8f54"
 dependencies = [
- "alpm-sys-fork",
+ "alpm-sys",
  "bitflags",
 ]
 
 [[package]]
-name = "alpm-sys-fork"
-version = "1.0.0"
+name = "alpm-sys"
+version = "1.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ec7b55dfea0a6b63c8c465d15650ea50be7a85d70d22d95b8798e71114c40310"
+checksum = "d6e4a05f349fdabd8ea6bc000fc559c674d64945571a71ff2937b9a66307c8f5"
 
 [[package]]
 name = "arrayref"
