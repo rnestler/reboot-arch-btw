@@ -3,7 +3,7 @@ jobs:
 
   test:
     docker:
-      - image: rnestler/archlinux-rust:1.42.0
+      - image: rnestler/archlinux-rust:1.48.0
     steps:
       - checkout
       - restore_cache:
@@ -24,7 +24,7 @@ jobs:
 
   lint:
     docker:
-      - image: rnestler/archlinux-rust:1.42.0
+      - image: rnestler/archlinux-rust:1.48.0
     steps:
       - checkout
       - restore_cache:
@@ -40,7 +40,7 @@ jobs:
 
   fmt:
     docker:
-      - image: rnestler/archlinux-rust:1.42.0
+      - image: rnestler/archlinux-rust:1.48.0
     steps:
       - checkout
       - run: rustup component add rustfmt
@@ -48,7 +48,7 @@ jobs:
 
   audit:
     docker:
-      - image: rnestler/archlinux-rust:1.42.0
+      - image: rnestler/archlinux-rust:1.48.0
     steps:
       - checkout
       - restore_cache:
