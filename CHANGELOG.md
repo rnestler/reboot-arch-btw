@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+ * Update dependencies and bump minimal supported Rust version to 1.48.0
+
 ## [v0.2.1] - 2020-05-23
 
  * Support non default kernels like linux-zen
