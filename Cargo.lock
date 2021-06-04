@@ -2,9 +2,9 @@
 # It is not intended for manual editing.
 [[package]]
 name = "alpm"
-version = "1.1.14"
+version = "2.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50b8cd36581cd365947f6faa0274cad9ae11464ecc8de94f92b66ee979b6b8cf"
+checksum = "865258f08377e6cf97a631b2d744cfcb74bc742b200381a44aa10c7e34024dc8"
 dependencies = [
  "alpm-sys",
  "bitflags 1.2.1",
@@ -12,9 +12,9 @@ dependencies = [
 
 [[package]]
 name = "alpm-sys"
-version = "1.1.9"
+version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b9f4f5f19990f1c5fb4d57f29251001db4b03d81bdf648f0a81c65083e47f8b4"
+checksum = "6bc975d7c0bc845e5206599b1df8a35141d0215384cf654edc449ed5bc0a2a36"
 
 [[package]]
 name = "arrayref"
@@ -271,9 +271,9 @@ checksum = "acc499defb3b348f8d8f3f66415835a9131856ff7714bf10dadfc4ec4bdb29a1"
 
 [[package]]
 name = "futures-lite"
-version = "1.11.3"
+version = "1.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b4481d0cd0de1d204a4fa55e7d45f07b1d958abcb06714b3446438e2eff695fb"
+checksum = "7694489acd39452c77daa48516b894c153f192c3578d5a839b62c58099fcbf48"
 dependencies = [
  "fastrand",
  "futures-core",
