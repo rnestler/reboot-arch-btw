@@ -2,9 +2,9 @@
 # It is not intended for manual editing.
 [[package]]
 name = "alpm"
-version = "1.1.14"
+version = "1.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50b8cd36581cd365947f6faa0274cad9ae11464ecc8de94f92b66ee979b6b8cf"
+checksum = "58c51b4686be2990e1fd47bc4ebd0d6dc0652fb1cf70455ce6764f48052998a0"
 dependencies = [
  "alpm-sys",
  "bitflags 1.2.1",
@@ -12,9 +12,9 @@ dependencies = [
 
 [[package]]
 name = "alpm-sys"
-version = "1.1.9"
+version = "1.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b9f4f5f19990f1c5fb4d57f29251001db4b03d81bdf648f0a81c65083e47f8b4"
+checksum = "6f7f5df4a77cc5f65789bf452fe32d5096d262e87f8b5303c7cf4edc00275c8e"
 
 [[package]]
 name = "arrayref"
@@ -570,6 +570,7 @@ name = "reboot-arch-btw"
 version = "0.2.2"
 dependencies = [
  "alpm",
+ "alpm-sys",
  "docopt",
  "notify-rust",
  "serde",
