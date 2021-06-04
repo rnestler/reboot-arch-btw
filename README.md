@@ -42,3 +42,7 @@ Xorg server
  installed: 1.20.11.1 (since 51 days ago)
  running:   1.20.11
 ```
+
+It will also show a [desktop
+notification](https://wiki.archlinux.org/title/Desktop_notifications)
+indicating that you probably want to reboot your system.
