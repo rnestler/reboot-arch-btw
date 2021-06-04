@@ -35,9 +35,10 @@ Usage
 ```Shell
 $ reboot-arch-btw
 Kernel
- installed: 5.6.10-arch1-1 (since 3 days ago)
- running:   5.6.10-arch1-1
+ installed: 5.12.8.arch1.1 (since 2 minutes ago)
+ running:   5.12.6.arch1.1
+You should reboot arch btw!
 Xorg server
- installed: 1.20.8-2 (since 3 days ago)
- running:   1.20.8
+ installed: 1.20.11.1 (since 51 days ago)
+ running:   1.20.11
 ```
