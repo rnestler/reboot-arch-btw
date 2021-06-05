@@ -9,6 +9,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Move .rustup to new $HOME
         run: mv /root/.rustup $HOME/
+      - name: Update pacman to 6.0
+        run: pacman --noconfirm -Sy pacman
       - run: cargo build
       - run: cargo test
 
@@ -19,6 +21,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Move .rustup to new $HOME
         run: mv /root/.rustup $HOME/
+      - name: Update pacman to 6.0
+        run: pacman --noconfirm -Sy pacman
       - run: rustup component add clippy
       - run: cargo clippy --all-targets --all-features -- -D warnings
 
