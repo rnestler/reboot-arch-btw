@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+ * Fix panic when unable to send desktop notification
+
 ## [v0.3.0] - 2021-06-06
 
  * Update dependencies and bump minimal supported Rust version to 1.48.0
