@@ -165,7 +165,8 @@ fn main() {
             .body("Kernel got updated. You should reboot your system!")
             .timeout(6000) //milliseconds
             .show()
-            .unwrap();
+            .map_err(|e| println!("Couldn't send notification: {}", e))
+            .ok();
     }
 
     let output_xdpyinfo = Command::new("xdpyinfo")
