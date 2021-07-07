@@ -1,14 +1,15 @@
 name: CI
 on: [push]
 
+env:
+  RUSTUP_HOME: /root/.rustup
+
 jobs:
   build_and_test:
     runs-on: ubuntu-20.04
     container: rnestler/archlinux-rust:1.53.0
     steps:
       - uses: actions/checkout@v2
-      - name: Move .rustup to new $HOME
-        run: mv /root/.rustup $HOME/
       - run: cargo build
       - run: cargo test
 
@@ -17,8 +18,6 @@ jobs:
     container: rnestler/archlinux-rust:1.53.0
     steps:
       - uses: actions/checkout@v2
-      - name: Move .rustup to new $HOME
-        run: mv /root/.rustup $HOME/
       - run: rustup component add clippy
       - run: cargo clippy --all-targets --all-features -- -D warnings
 
@@ -27,8 +26,6 @@ jobs:
     container: rnestler/archlinux-rust:1.53.0
     steps:
       - uses: actions/checkout@v2
-      - name: Move .rustup to new $HOME
-        run: mv /root/.rustup $HOME/
       - run: rustup component add rustfmt
       - run: cargo fmt -- --check
 
@@ -37,7 +34,5 @@ jobs:
     container: rnestler/archlinux-rust:1.53.0
     steps:
       - uses: actions/checkout@v2
-      - name: Move .rustup to new $HOME
-        run: mv /root/.rustup $HOME/
       - run: pacman --noconfirm -Sy cargo-audit
       - run: cargo audit
