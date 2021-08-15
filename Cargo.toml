@@ -21,7 +21,7 @@ include = [
 edition = "2018"
 
 [dependencies]
-alpm = "2.0.3"
+alpm = "2.1.0"
 docopt = "1.1"
 notify-rust = "4.1"
 serde = "1.0"
