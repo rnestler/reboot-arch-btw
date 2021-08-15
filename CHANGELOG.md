@@ -3,9 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v0.3.1] - 2021-08-15
 
  * Fix panic when unable to send desktop notification
+ * Update alpm to 2.1
 
 ## [v0.3.0] - 2021-06-06
 
@@ -61,7 +62,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
  * First public release
 
-[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v0.3.0...master
+[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v0.3.1...master
+[v0.3.1]: https://github.com/rnestler/reboot-arch-btw/releases/tag/v0.3.0..v0.3.1
 [v0.3.0]: https://github.com/rnestler/reboot-arch-btw/releases/tag/v0.2.1..v0.3.0
 [v0.2.1]: https://github.com/rnestler/reboot-arch-btw/releases/tag/v0.2.0..v0.2.1
 [v0.2.0]: https://github.com/rnestler/reboot-arch-btw/releases/tag/v0.1.3..v0.2.0
