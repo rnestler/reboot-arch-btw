@@ -18,6 +18,11 @@ You may just install it from the AUR:
  * https://aur.archlinux.org/packages/reboot-arch-btw for the latest release
  * https://aur.archlinux.org/packages/reboot-arch-btw-git for the latest master
 
+Alternatively one can install it with cargo:
+```
+cargo install reboot-arch-btw
+```
+
 Build
 -----
 
