@@ -1,10 +1,8 @@
-use serde_derive::Deserialize;
-
 use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use docopt::Docopt;
 use notify_rust::Notification;
+use structopt::StructOpt;
 
 struct PackageInfo {
     version: String,
@@ -98,32 +96,12 @@ fn parse_xdpyinfo_output(xdpyinfo_output: &str) -> Option<&str> {
     None
 }
 
-const USAGE: &str = "
-Check the currently installed kernel against the currently running one.
-
-Usage:
-  reboot-arch-btw
-  reboot-arch-btw (-h | --help)
-  reboot-arch-btw --version
-
-Options:
-  -h --help     Show this screen.
-  --version     Show version.
-";
-
-#[derive(Debug, Deserialize)]
-struct Args {
-    flag_version: bool,
-}
+#[derive(Debug, StructOpt)]
+#[structopt(about = "Check the currently installed kernel against the currently running one.")]
+struct Args {}
 
 fn main() {
-    let args: Args = Docopt::new(USAGE)
-        .and_then(|d| d.deserialize())
-        .unwrap_or_else(|e| e.exit());
-    if args.flag_version {
-        println!("reboot-arch-btw: {}", env!("CARGO_PKG_VERSION"));
-        return;
-    }
+    let _args = Args::from_args();
 
     // Initialize Pacman database
     let alpm = alpm::Alpm::new("/", "/var/lib/pacman/")
