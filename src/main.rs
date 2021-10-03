@@ -98,10 +98,14 @@ fn parse_xdpyinfo_output(xdpyinfo_output: &str) -> Option<&str> {
 
 #[derive(Debug, StructOpt)]
 #[structopt(about = "Check the currently installed kernel against the currently running one.")]
-struct Args {}
+struct Args {
+    /// Disable desktop notification
+    #[structopt(long)]
+    disable_notification: bool,
+}
 
 fn main() {
-    let _args = Args::from_args();
+    let args = Args::from_args();
 
     // Initialize Pacman database
     let alpm = alpm::Alpm::new("/", "/var/lib/pacman/")
@@ -138,13 +142,15 @@ fn main() {
     let should_reboot = !installed_kernel.version_matches(&running_kernel_version);
     if should_reboot {
         println!("You should reboot arch btw!");
-        Notification::new()
-            .summary("Reboot arch btw")
-            .body("Kernel got updated. You should reboot your system!")
-            .timeout(6000) //milliseconds
-            .show()
-            .map_err(|e| println!("Couldn't send notification: {}", e))
-            .ok();
+        if !args.disable_notification {
+            Notification::new()
+                .summary("Reboot arch btw")
+                .body("Kernel got updated. You should reboot your system!")
+                .timeout(6000) //milliseconds
+                .show()
+                .map_err(|e| println!("Couldn't send notification: {}", e))
+                .ok();
+        }
     }
 
     let output_xdpyinfo = Command::new("xdpyinfo")
