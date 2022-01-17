@@ -19,7 +19,7 @@ impl PackageInfo {
 
     /// Read a decimal number from the input and return the parsed number and the remaining input
     fn read_number(input: &str) -> (Option<u32>, &str) {
-        let res = input.find(|ch| !(ch >= '0' && ch <= '9'));
+        let res = input.find(|ch| !('0'..='9').contains(&ch));
         if res.is_none() {}
         match res {
             None => (input.parse().ok(), ""),
@@ -30,11 +30,7 @@ impl PackageInfo {
 
     /// Read a `.` or not and return the remaining input
     fn read_dot(input: &str) -> &str {
-        if input.starts_with('.') {
-            &input[1..]
-        } else {
-            input
-        }
+        input.strip_prefix('.').unwrap_or(input)
     }
 
     /// Clean up Arch package versions.
