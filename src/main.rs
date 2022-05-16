@@ -53,7 +53,7 @@ impl PackageInfo {
         }
         version += remaining;
 
-        Some(version.replace("-", "."))
+        Some(version.replace('-', "."))
     }
 
     /// Return a string representing the "time ago" when this package was
@@ -99,12 +99,12 @@ impl KernelInfo {
         // if the last part is text it is a kernel variant
         if last_part.chars().all(char::is_alphabetic) {
             Some(KernelInfo {
-                version: uname_output[0..last_dash].replace("-", "."),
+                version: uname_output[0..last_dash].replace('-', "."),
                 variant: Some(last_part.to_string()),
             })
         } else {
             Some(KernelInfo {
-                version: uname_output.replace("-", "."),
+                version: uname_output.replace('-', "."),
                 variant: None,
             })
         }
