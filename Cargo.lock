@@ -724,7 +724,7 @@ dependencies = [
 
 [[package]]
 name = "reboot-arch-btw"
-version = "0.3.3"
+version = "0.3.4"
 dependencies = [
  "alpm",
  "notify-rust",
