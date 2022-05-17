@@ -35,4 +35,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: pacman --noconfirm -Sy cargo-audit
-      - run: cargo audit --ignore RUSTSEC-2020-0071 --ignore RUSTSEC-2020-0159
+      - run: cargo audit
