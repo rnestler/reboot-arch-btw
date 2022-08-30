@@ -1,4 +1,6 @@
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rnestler/reboot-arch-btw/CI)](https://github.com/rnestler/reboot-arch-btw/actions)
+[![Crates.io Version](https://img.shields.io/crates/v/reboot-arch-btw.svg)](https://crates.io/crates/reboot-arch-btw)
+[![Crates.io Downloads](https://img.shields.io/crates/d/reboot-arch-btw.svg)](https://crates.io/crates/reboot-arch-btw)
 Reboot Arch BTW
 ===============
 
