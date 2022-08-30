@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
  * Update dependencies
+ * Migrate from structopt to pure clap
+   ([#71](https://github.com/rnestler/reboot-arch-btw/pull/71))
 
 ## [v0.3.4] - 2022-05-17
 

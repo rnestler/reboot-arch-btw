@@ -1,8 +1,8 @@
 use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
 
+use clap::Parser;
 use notify_rust::Notification;
-use structopt::StructOpt;
 
 struct PackageInfo {
     version: String,
@@ -129,8 +129,11 @@ fn parse_xdpyinfo_output(xdpyinfo_output: &str) -> Option<&str> {
     None
 }
 
-#[derive(Debug, StructOpt)]
-#[structopt(about = "Check the currently installed kernel against the currently running one.")]
+#[derive(Debug, Parser)]
+#[clap(
+    version,
+    about = "Check the currently installed kernel against the currently running one."
+)]
 struct Args {
     /// Disable desktop notification
     #[structopt(long)]
