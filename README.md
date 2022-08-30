@@ -1,4 +1,4 @@
-[![CircleCI status](https://circleci.com/gh/rnestler/reboot-arch-btw.svg?style=shield)](https://circleci.com/gh/rnestler/reboot-arch-btw/tree/master)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rnestler/reboot-arch-btw/CI)](https://github.com/rnestler/reboot-arch-btw/actions)
 Reboot Arch BTW
 ===============
 
