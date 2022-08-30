@@ -2,7 +2,7 @@ use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use notify_rust::Notification;
-use structopt::StructOpt;
+use clap::StructOpt;
 
 struct PackageInfo {
     version: String,

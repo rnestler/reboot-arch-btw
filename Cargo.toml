@@ -22,7 +22,5 @@ edition = "2018"
 
 [dependencies]
 alpm = "2.1.0"
-structopt = "0.3.23"
+clap = { version = "3.2.18", features = ["std", "derive"], default-features = false }
 notify-rust = "4.1"
-serde = "1.0"
-serde_derive = "1.0"
