@@ -715,7 +715,7 @@ dependencies = [
 
 [[package]]
 name = "reboot-arch-btw"
-version = "0.3.4"
+version = "0.4.0"
 dependencies = [
  "alpm",
  "clap",
