@@ -9,6 +9,8 @@ use package::get_package_version;
 mod kernel;
 use kernel::KernelInfo;
 
+mod checks;
+
 /// Parse the output of `xdpyinfo`
 fn parse_xdpyinfo_output(xdpyinfo_output: &str) -> Option<&str> {
     for line in xdpyinfo_output.lines() {
