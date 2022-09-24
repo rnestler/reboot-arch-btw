@@ -11,6 +11,7 @@ use kernel::{KernelChecker, KernelInfo};
 
 mod checks;
 use checks::{Check, CheckResult};
+mod session;
 
 /// Parse the output of `xdpyinfo`
 fn parse_xdpyinfo_output(xdpyinfo_output: &str) -> Option<&str> {
