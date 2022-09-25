@@ -32,8 +32,12 @@ fn parse_xdpyinfo_output(xdpyinfo_output: &str) -> Option<&str> {
 )]
 struct Args {
     /// Disable desktop notification
-    #[structopt(long)]
+    #[clap(long)]
     disable_notification: bool,
+
+    /// Comma separated list of packages were we should reboot after an upgrade.
+    #[clap(long, use_delimiter = true)]
+    reboot_packages: Vec<String>,
 }
 
 fn main() {
@@ -51,7 +55,7 @@ fn main() {
     let session_info = session::SessionInfo::from_utmp();
     if let Ok(session_info) = session_info {
         let critical_packages_checker =
-            CriticalPackagesCheck::new(vec!["systemd".to_owned()], session_info, db);
+            CriticalPackagesCheck::new(args.reboot_packages, session_info, db);
         checkers.push(Box::new(critical_packages_checker));
     }
 
