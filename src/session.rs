@@ -1,6 +1,7 @@
 use time::OffsetDateTime;
 use utmp_rs::UtmpEntry;
 
+#[derive(Clone, Copy)]
 pub struct SessionInfo {
     pub boot_time: OffsetDateTime,
     pub session_time: OffsetDateTime,

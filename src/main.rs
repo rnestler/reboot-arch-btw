@@ -11,6 +11,8 @@ use kernel::{KernelChecker, KernelInfo};
 
 mod checks;
 use checks::{Check, CheckResult};
+mod critical_packages_check;
+use critical_packages_check::CriticalPackagesCheck;
 mod session;
 
 /// Parse the output of `xdpyinfo`
@@ -43,14 +45,28 @@ fn main() {
     let db = alpm.localdb();
 
     let kernel_info = KernelInfo::from_uname().expect("Failed to parse uname output");
-    let kernel_checker = KernelChecker::new(kernel_info, db);
 
-    if kernel_checker.check() == CheckResult::Reboot {
+    let mut checkers: Vec<Box<dyn Check>> = vec![Box::new(KernelChecker::new(kernel_info, db))];
+
+    let session_info = session::SessionInfo::from_utmp();
+    if let Ok(session_info) = session_info {
+        let critical_packages_checker =
+            CriticalPackagesCheck::new(vec!["systemd".to_owned()], session_info, db);
+        checkers.push(Box::new(critical_packages_checker));
+    }
+
+    let result = checkers
+        .iter()
+        .map(|v| v.check())
+        .max()
+        .expect("No checkers could run");
+
+    if result == CheckResult::Reboot {
         println!("You should reboot arch btw!");
         if !args.disable_notification {
             Notification::new()
                 .summary("Reboot arch btw")
-                .body("Kernel got updated. You should reboot your system!")
+                .body("System got updated. You should reboot your system!")
                 .timeout(6000) //milliseconds
                 .show()
                 .map_err(|e| println!("Couldn't send notification: {}", e))
