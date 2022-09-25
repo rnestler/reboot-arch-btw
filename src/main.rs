@@ -7,9 +7,10 @@ mod package;
 use package::get_package_version;
 
 mod kernel;
-use kernel::KernelInfo;
+use kernel::{KernelChecker, KernelInfo};
 
 mod checks;
+use checks::{Check, CheckResult};
 
 /// Parse the output of `xdpyinfo`
 fn parse_xdpyinfo_output(xdpyinfo_output: &str) -> Option<&str> {
@@ -42,27 +43,9 @@ fn main() {
 
     // uname output is in the form version-ARCH
     let kernel_info = KernelInfo::from_uname().expect("Failed to parse uname output");
-    let running_kernel_version = kernel_info.version;
+    let kernel_checker = KernelChecker::new(kernel_info, &db);
 
-    let kernel_package = if let Some(variant) = kernel_info.variant {
-        format!("linux-{}", variant)
-    } else {
-        "linux".to_owned()
-    };
-
-    let installed_kernel = get_package_version(&db, &kernel_package)
-        .expect("Could not get version of installed kernel");
-
-    println!("Kernel");
-    println!(
-        " installed: {} (since {})",
-        installed_kernel.version,
-        installed_kernel.installed_reltime()
-    );
-    println!(" running:   {}", running_kernel_version);
-
-    let should_reboot = !installed_kernel.version_matches(&running_kernel_version);
-    if should_reboot {
+    if kernel_checker.check() == CheckResult::Reboot {
         println!("You should reboot arch btw!");
         if !args.disable_notification {
             Notification::new()

@@ -1,3 +1,5 @@
+use crate::checks::{Check, CheckResult};
+use crate::package::{get_package_version, PackageInfo};
 use std::process::Command;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -30,6 +32,48 @@ impl KernelInfo {
                 version: uname_output.replace('-', "."),
                 variant: None,
             })
+        }
+    }
+}
+
+pub struct KernelChecker {
+    kernel_info: KernelInfo,
+    installed_kernel: PackageInfo,
+}
+
+impl KernelChecker {
+    pub fn new(kernel_info: KernelInfo, db: &alpm::Db) -> KernelChecker {
+        let kernel_package = if let Some(variant) = &kernel_info.variant {
+            format!("linux-{}", variant)
+        } else {
+            "linux".to_owned()
+        };
+        let installed_kernel = get_package_version(&db, &kernel_package)
+            .expect("Could not get version of installed kernel");
+        KernelChecker {
+            kernel_info,
+            installed_kernel,
+        }
+    }
+}
+
+impl Check for KernelChecker {
+    fn check(&self) -> CheckResult {
+        println!("Kernel");
+        println!(
+            " installed: {} (since {})",
+            self.installed_kernel.version,
+            self.installed_kernel.installed_reltime()
+        );
+        let running_kernel_version = &self.kernel_info.version;
+        println!(" running:   {}", running_kernel_version);
+        let should_reboot = !self
+            .installed_kernel
+            .version_matches(running_kernel_version);
+        if should_reboot {
+            CheckResult::Reboot
+        } else {
+            CheckResult::Nothing
         }
     }
 }
