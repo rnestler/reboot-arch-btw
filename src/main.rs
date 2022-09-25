@@ -42,7 +42,6 @@ fn main() {
         .expect("Could not open pacman database at /var/lib/pacman");
     let db = alpm.localdb();
 
-    // uname output is in the form version-ARCH
     let kernel_info = KernelInfo::from_uname().expect("Failed to parse uname output");
     let kernel_checker = KernelChecker::new(kernel_info, &db);
 

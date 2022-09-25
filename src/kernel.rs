@@ -18,6 +18,7 @@ impl KernelInfo {
         Self::from_uname_output(&output_uname_stdout)
     }
     pub fn from_uname_output(uname_output: &str) -> Option<KernelInfo> {
+        // uname output is in the form version-ARCH
         let uname_output = uname_output.trim();
         let last_dash = uname_output.rfind('-')?;
         let last_part = &uname_output[last_dash + 1..];
