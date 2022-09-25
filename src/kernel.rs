@@ -1,3 +1,5 @@
+use std::process::Command;
+
 #[derive(Debug, PartialEq, Eq)]
 pub struct KernelInfo {
     pub version: String,
@@ -5,6 +7,14 @@ pub struct KernelInfo {
 }
 
 impl KernelInfo {
+    pub fn from_uname() -> Option<KernelInfo> {
+        let output_uname = Command::new("uname")
+            .arg("-r")
+            .output()
+            .expect("Could not execute uname");
+        let output_uname_stdout = String::from_utf8_lossy(&output_uname.stdout);
+        Self::from_uname_output(&output_uname_stdout)
+    }
     pub fn from_uname_output(uname_output: &str) -> Option<KernelInfo> {
         let uname_output = uname_output.trim();
         let last_dash = uname_output.rfind('-')?;

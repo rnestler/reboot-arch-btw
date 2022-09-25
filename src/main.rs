@@ -39,13 +39,7 @@ fn main() {
     let db = alpm.localdb();
 
     // uname output is in the form version-ARCH
-    let output_uname = Command::new("uname")
-        .arg("-r")
-        .output()
-        .expect("Could not execute uname");
-    let output_uname_stdout = String::from_utf8_lossy(&output_uname.stdout);
-    let kernel_info =
-        KernelInfo::from_uname_output(&output_uname_stdout).expect("Failed to parse uname output");
+    let kernel_info = KernelInfo::from_uname().expect("Failed to parse uname output");
     let running_kernel_version = kernel_info.version;
 
     let kernel_package = if let Some(variant) = kernel_info.variant {
