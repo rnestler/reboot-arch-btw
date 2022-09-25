@@ -81,7 +81,7 @@ impl PackageInfo {
     }
 }
 
-pub fn get_package_version(db: &alpm::Db, package_name: &str) -> Option<PackageInfo> {
+pub fn get_package_version(db: alpm::Db, package_name: &str) -> Option<PackageInfo> {
     let pkg = match db.pkg(package_name) {
         Ok(pkg) => pkg,
         Err(_) => return None,

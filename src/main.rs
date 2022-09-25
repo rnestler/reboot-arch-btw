@@ -43,7 +43,7 @@ fn main() {
     let db = alpm.localdb();
 
     let kernel_info = KernelInfo::from_uname().expect("Failed to parse uname output");
-    let kernel_checker = KernelChecker::new(kernel_info, &db);
+    let kernel_checker = KernelChecker::new(kernel_info, db);
 
     if kernel_checker.check() == CheckResult::Reboot {
         println!("You should reboot arch btw!");
@@ -65,7 +65,7 @@ fn main() {
         let output_xdpyinfo = String::from_utf8_lossy(&output_xdpyinfo.stdout);
         let running_xorg_version =
             parse_xdpyinfo_output(&output_xdpyinfo).expect("Could not parse xdpyinfo output");
-        let installed_xorg = get_package_version(&db, "xorg-server")
+        let installed_xorg = get_package_version(db, "xorg-server")
             .expect("Could not get version of installed xserver");
 
         println!("Xorg server");

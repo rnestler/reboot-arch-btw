@@ -43,13 +43,13 @@ pub struct KernelChecker {
 }
 
 impl KernelChecker {
-    pub fn new(kernel_info: KernelInfo, db: &alpm::Db) -> KernelChecker {
+    pub fn new(kernel_info: KernelInfo, db: alpm::Db) -> KernelChecker {
         let kernel_package = if let Some(variant) = &kernel_info.variant {
             format!("linux-{}", variant)
         } else {
             "linux".to_owned()
         };
-        let installed_kernel = get_package_version(&db, &kernel_package)
+        let installed_kernel = get_package_version(db, &kernel_package)
             .expect("Could not get version of installed kernel");
         KernelChecker {
             kernel_info,
