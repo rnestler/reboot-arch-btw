@@ -73,12 +73,12 @@ fn main() {
         .max()
         .expect("No checkers could run");
 
-    if result == CheckResult::Reboot {
-        println!("You should reboot arch btw!");
+    if result > CheckResult::Nothing {
+        println!("{}", result.summary());
         if !args.disable_notification {
             Notification::new()
-                .summary("Reboot arch btw")
-                .body("System got updated. You should reboot your system!")
+                .summary(result.summary())
+                .body(result.body())
                 .timeout(6000) //milliseconds
                 .show()
                 .map_err(|e| println!("Couldn't send notification: {}", e))
