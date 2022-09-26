@@ -1,4 +1,4 @@
-#[derive(PartialEq, Eq, PartialOrd, Ord)]
+#[derive(PartialEq, Eq, PartialOrd, Ord, Debug)]
 pub enum CheckResult {
     Nothing,
     RestartSession,

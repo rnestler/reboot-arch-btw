@@ -60,17 +60,18 @@ impl KernelChecker {
 
 impl Check for KernelChecker {
     fn check(&self) -> CheckResult {
+        let cleaned_kernel_version =
+            PackageInfo::cleanup_kernel_version(&self.installed_kernel.version)
+                .expect("Could not clean version of installed kernel");
         println!("Kernel");
         println!(
             " installed: {} (since {})",
-            self.installed_kernel.version,
+            cleaned_kernel_version,
             self.installed_kernel.installed_reltime()
         );
         let running_kernel_version = &self.kernel_info.version;
         println!(" running:   {}", running_kernel_version);
-        let should_reboot = !self
-            .installed_kernel
-            .version_matches(running_kernel_version);
+        let should_reboot = running_kernel_version != &cleaned_kernel_version;
         if should_reboot {
             CheckResult::Reboot
         } else {
@@ -105,5 +106,31 @@ mod test {
             }),
             kernel_version
         );
+    }
+
+    #[test]
+    fn test_kernel_checker_should_reboot() {
+        let kernel_checker = KernelChecker {
+            kernel_info: KernelInfo::from_uname_output("5.19.9-arch1-1").unwrap(),
+            installed_kernel: PackageInfo {
+                version: "5.19.11.arch1-1".to_owned(),
+                install_date: None,
+            },
+        };
+
+        assert_eq!(kernel_checker.check(), CheckResult::Reboot);
+    }
+
+    #[test]
+    fn test_kernel_checker_should_not_reboot() {
+        let kernel_checker = KernelChecker {
+            kernel_info: KernelInfo::from_uname_output("5.19.9-arch1-1").unwrap(),
+            installed_kernel: PackageInfo {
+                version: "5.19.9.arch1-1".to_owned(),
+                install_date: None,
+            },
+        };
+
+        assert_eq!(kernel_checker.check(), CheckResult::Nothing);
     }
 }

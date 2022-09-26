@@ -6,11 +6,11 @@ pub struct PackageInfo {
 }
 
 impl PackageInfo {
-    pub fn from_package(pkg: &alpm::Package) -> Option<Self> {
-        Some(Self {
-            version: Self::cleanup_pkg_version(pkg.version())?,
+    pub fn from_package(pkg: &alpm::Package) -> Self {
+        Self {
+            version: pkg.version().to_string(),
             install_date: pkg.install_date(),
-        })
+        }
     }
 
     /// Read a decimal number from the input and return the parsed number and the remaining input
@@ -30,7 +30,7 @@ impl PackageInfo {
     }
 
     /// Clean up Arch package versions.
-    pub fn cleanup_pkg_version(raw_version: &str) -> Option<String> {
+    pub fn cleanup_kernel_version(raw_version: &str) -> Option<String> {
         let mut version = String::new();
         let (n, mut remaining) = Self::read_number(raw_version);
         version += &n?.to_string();
@@ -74,19 +74,13 @@ impl PackageInfo {
             format!("{} days ago", delta / (3600 * 24))
         }
     }
-
-    #[inline]
-    pub fn version_matches(&self, other_version: &str) -> bool {
-        self.version == other_version
-    }
 }
 
 pub fn get_package_version(db: alpm::Db, package_name: &str) -> Option<PackageInfo> {
-    let pkg = match db.pkg(package_name) {
-        Ok(pkg) => pkg,
-        Err(_) => return None,
-    };
-    PackageInfo::from_package(&pkg)
+    match db.pkg(package_name) {
+        Ok(pkg) => Some(PackageInfo::from_package(&pkg)),
+        Err(_) => None,
+    }
 }
 
 #[cfg(test)]
@@ -96,11 +90,11 @@ mod test {
     #[test]
     fn test_cleanup_pkg_version() {
         assert_eq!(
-            PackageInfo::cleanup_pkg_version("5.3.11.1-1"),
+            PackageInfo::cleanup_kernel_version("5.3.11.1-1"),
             Some("5.3.11.1.1".to_owned()),
         );
         assert_eq!(
-            PackageInfo::cleanup_pkg_version("5.4.1.arch1-1"),
+            PackageInfo::cleanup_kernel_version("5.4.1.arch1-1"),
             Some("5.4.1.arch1.1".to_owned()),
         );
     }
@@ -108,7 +102,7 @@ mod test {
     #[test]
     fn test_cleanup_pkg_version_missing_patch_digit() {
         assert_eq!(
-            PackageInfo::cleanup_pkg_version("5.16.arch1-1"),
+            PackageInfo::cleanup_kernel_version("5.16.arch1-1"),
             Some("5.16.0.arch1.1".to_owned()),
         );
     }
@@ -125,15 +119,5 @@ mod test {
     #[test]
     fn test_read_number() {
         assert_eq!((Some(1), ".1-foo"), PackageInfo::read_number("1.1-foo"));
-    }
-
-    #[test]
-    fn test_version_matches() {
-        let ver = "5.3.11-arch1-1";
-        let info = PackageInfo {
-            version: ver.to_string(),
-            install_date: None,
-        };
-        assert!(info.version_matches(ver));
     }
 }
