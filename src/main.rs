@@ -36,7 +36,7 @@ struct Args {
     disable_notification: bool,
 
     /// Comma separated list of packages were we should reboot after an upgrade.
-    #[clap(long, use_delimiter = true)]
+    #[clap(long, use_delimiter = true, default_value = "systemd,linux-firmware")]
     reboot_packages: Vec<String>,
 
     /// Comma separated list of packages were we should restart our session after an upgrade.
