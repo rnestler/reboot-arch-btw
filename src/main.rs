@@ -38,6 +38,10 @@ struct Args {
     /// Comma separated list of packages were we should reboot after an upgrade.
     #[clap(long, use_delimiter = true)]
     reboot_packages: Vec<String>,
+
+    /// Comma separated list of packages were we should restart our session after an upgrade.
+    #[clap(long, use_delimiter = true)]
+    session_restart_packages: Vec<String>,
 }
 
 fn main() {
@@ -54,8 +58,12 @@ fn main() {
 
     let session_info = session::SessionInfo::from_utmp();
     if let Ok(session_info) = session_info {
-        let critical_packages_checker =
-            CriticalPackagesCheck::new(args.reboot_packages, session_info, db);
+        let critical_packages_checker = CriticalPackagesCheck::new(
+            args.reboot_packages,
+            args.session_restart_packages,
+            session_info,
+            db,
+        );
         checkers.push(Box::new(critical_packages_checker));
     }
 

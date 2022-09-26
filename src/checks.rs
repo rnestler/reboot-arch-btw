@@ -1,6 +1,7 @@
 #[derive(PartialEq, Eq, PartialOrd, Ord)]
 pub enum CheckResult {
     Nothing,
+    RestartSession,
     Reboot,
 }
 
