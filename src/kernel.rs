@@ -109,6 +109,18 @@ mod test {
     }
 
     #[test]
+    fn test_kernel_version_from_uname_output_lts() {
+        let kernel_version = KernelInfo::from_uname_output("5.15.69-1-lts");
+        assert_eq!(
+            Some(KernelInfo {
+                version: "5.15.69.1".to_owned(),
+                variant: Some("lts".to_owned()),
+            }),
+            kernel_version
+        );
+    }
+
+    #[test]
     fn test_kernel_checker_should_reboot() {
         let kernel_checker = KernelChecker {
             kernel_info: KernelInfo::from_uname_output("5.19.9-arch1-1").unwrap(),

@@ -97,6 +97,10 @@ mod test {
             PackageInfo::cleanup_kernel_version("5.4.1.arch1-1"),
             Some("5.4.1.arch1.1".to_owned()),
         );
+        assert_eq!(
+            PackageInfo::cleanup_kernel_version("5.15.69-1"),
+            Some("5.15.69.1".to_owned()),
+        );
     }
 
     #[test]
