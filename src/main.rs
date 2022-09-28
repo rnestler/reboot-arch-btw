@@ -1,10 +1,7 @@
-use std::process::Command;
-
 use clap::Parser;
 use notify_rust::Notification;
 
 mod package;
-use package::get_package_version;
 
 mod kernel;
 use kernel::{KernelChecker, KernelInfo};
@@ -14,16 +11,6 @@ use checks::{Check, CheckResult};
 mod critical_packages_check;
 use critical_packages_check::CriticalPackagesCheck;
 mod session;
-
-/// Parse the output of `xdpyinfo`
-fn parse_xdpyinfo_output(xdpyinfo_output: &str) -> Option<&str> {
-    for line in xdpyinfo_output.lines() {
-        if line.starts_with("X.Org version: ") {
-            return Some(line.split_at(15).1);
-        }
-    }
-    None
-}
 
 #[derive(Debug, Parser)]
 #[clap(
@@ -40,7 +27,11 @@ struct Args {
     reboot_packages: Vec<String>,
 
     /// Comma separated list of packages were we should restart our session after an upgrade.
-    #[clap(long, use_delimiter = true)]
+    #[clap(
+        long,
+        use_delimiter = true,
+        default_value = "xorg-server,xorg-xwayland"
+    )]
     session_restart_packages: Vec<String>,
 }
 
@@ -84,37 +75,5 @@ fn main() {
                 .map_err(|e| println!("Couldn't send notification: {}", e))
                 .ok();
         }
-    }
-
-    let output_xdpyinfo = Command::new("xdpyinfo")
-        .output()
-        .map_err(|err| println!("Could not execute xdpyinfo: {}", err));
-    if let Ok(output_xdpyinfo) = output_xdpyinfo {
-        let output_xdpyinfo = String::from_utf8_lossy(&output_xdpyinfo.stdout);
-        let running_xorg_version =
-            parse_xdpyinfo_output(&output_xdpyinfo).expect("Could not parse xdpyinfo output");
-        let installed_xorg = get_package_version(db, "xorg-server")
-            .expect("Could not get version of installed xserver");
-
-        println!("Xorg server");
-        println!(
-            " installed: {} (since {})",
-            installed_xorg.version,
-            installed_xorg.installed_reltime()
-        );
-        println!(" running:   {}", running_xorg_version);
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn test_parse_xdpyinfo_output() {
-        assert_eq!(
-            Some("1.18.4"),
-            parse_xdpyinfo_output("X.Org version: 1.18.4")
-        );
     }
 }
