@@ -23,4 +23,4 @@ edition = "2018"
 [dependencies]
 alpm = "2.1.0"
 clap = { version = "3.2.19", features = ["std", "derive"], default-features = false }
-notify-rust = "4.1"
+notify-rust = "4.5"
