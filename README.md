@@ -11,6 +11,9 @@ This is a small utility which shows the installed and running Linux kernel on
 the kernel got updated and suddenly your USB drive won't mount because the
 needed kernel module can't get loaded.
 
+It can also detect if critical packages like systemd got updated which may also
+make a reboot necessary.
+
 To get the version of the installed kernel it uses libalpm (shipped with
 pacman) to query the local pacman database. To get the version of the running
 kernel it uses `uname -r`.
@@ -44,12 +47,10 @@ Usage
 ```Shell
 $ reboot-arch-btw
 Kernel
- installed: 5.12.8.arch1.1 (since 2 minutes ago)
- running:   5.12.6.arch1.1
-You should reboot arch btw!
-Xorg server
- installed: 1.20.11.1 (since 51 days ago)
- running:   1.20.11
+ installed: 5.19.13.arch1.1 (since 4 minutes ago)
+ running:   5.19.12.arch1.1
+systemd updated 4 minutes ago
+Reboot arch btw
 ```
 
 It will also show a [desktop
