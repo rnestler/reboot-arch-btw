@@ -56,3 +56,33 @@ Reboot arch btw
 It will also show a [desktop
 notification](https://wiki.archlinux.org/title/Desktop_notifications)
 indicating that you probably want to reboot your system.
+
+One can use `--reboot-packages` or `--reboot-packages` to set the list of
+packages which should also trigger a notification if they are updated.
+
+```
+$ reboot-arch-btw --help
+reboot-arch-btw 0.4.0
+Check the currently installed kernel against the currently running one.
+
+USAGE:
+    reboot-arch-btw [OPTIONS]
+
+OPTIONS:
+        --disable-notification
+            Disable desktop notification
+
+    -h, --help
+            Print help information
+
+        --reboot-packages <REBOOT_PACKAGES>
+            Comma separated list of packages were we should reboot after an upgrade [default:
+            systemd,linux-firmware]
+
+        --session-restart-packages <SESSION_RESTART_PACKAGES>
+            Comma separated list of packages were we should restart our session after an upgrade
+            [default: xorg-server,xorg-xwayland]
+
+    -V, --version
+            Print version information
+```
