@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+ * Allow to also watch other packages which could make a reboot or restart of
+   the session necessary.
+   ([#78](https://github.com/rnestler/reboot-arch-btw/pull/78))
+
 ## [v0.4.0] - 2022-08-30
 
  * Update dependencies

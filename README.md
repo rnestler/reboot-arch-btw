@@ -11,6 +11,9 @@ This is a small utility which shows the installed and running Linux kernel on
 the kernel got updated and suddenly your USB drive won't mount because the
 needed kernel module can't get loaded.
 
+It can also detect if critical packages like systemd got updated which may also
+make a reboot necessary.
+
 To get the version of the installed kernel it uses libalpm (shipped with
 pacman) to query the local pacman database. To get the version of the running
 kernel it uses `uname -r`.
@@ -44,14 +47,42 @@ Usage
 ```Shell
 $ reboot-arch-btw
 Kernel
- installed: 5.12.8.arch1.1 (since 2 minutes ago)
- running:   5.12.6.arch1.1
-You should reboot arch btw!
-Xorg server
- installed: 1.20.11.1 (since 51 days ago)
- running:   1.20.11
+ installed: 5.19.13.arch1.1 (since 4 minutes ago)
+ running:   5.19.12.arch1.1
+systemd updated 4 minutes ago
+Reboot arch btw
 ```
 
 It will also show a [desktop
 notification](https://wiki.archlinux.org/title/Desktop_notifications)
 indicating that you probably want to reboot your system.
+
+One can use `--reboot-packages` or `--reboot-packages` to set the list of
+packages which should also trigger a notification if they are updated.
+
+```
+$ reboot-arch-btw --help
+reboot-arch-btw 0.4.0
+Check the currently installed kernel against the currently running one.
+
+USAGE:
+    reboot-arch-btw [OPTIONS]
+
+OPTIONS:
+        --disable-notification
+            Disable desktop notification
+
+    -h, --help
+            Print help information
+
+        --reboot-packages <REBOOT_PACKAGES>
+            Comma separated list of packages were we should reboot after an upgrade [default:
+            systemd,linux-firmware]
+
+        --session-restart-packages <SESSION_RESTART_PACKAGES>
+            Comma separated list of packages were we should restart our session after an upgrade
+            [default: xorg-server,xorg-xwayland]
+
+    -V, --version
+            Print version information
+```
