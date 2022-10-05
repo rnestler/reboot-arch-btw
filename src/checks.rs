@@ -3,6 +3,7 @@ pub enum CheckResult {
     Nothing,
     RestartSession,
     Reboot,
+    KernelUpdate,
 }
 
 impl CheckResult {
@@ -10,7 +11,7 @@ impl CheckResult {
         match self {
             CheckResult::Nothing => "All good",
             CheckResult::RestartSession => "Restart your session btw",
-            CheckResult::Reboot => "Reboot arch btw",
+            CheckResult::Reboot | CheckResult::KernelUpdate => "Reboot arch btw",
         }
     }
 
@@ -21,6 +22,7 @@ impl CheckResult {
                 "System packages got updated. You should logout to restart your session."
             }
             CheckResult::Reboot => "System packages got updated. You should reboot your system!",
+            CheckResult::KernelUpdate => "Kernel got updated. You should reboot your system!",
         }
     }
 }
