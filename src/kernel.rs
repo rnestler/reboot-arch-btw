@@ -73,7 +73,7 @@ impl Check for KernelChecker {
         println!(" running:   {}", running_kernel_version);
         let should_reboot = running_kernel_version != &cleaned_kernel_version;
         if should_reboot {
-            CheckResult::Reboot
+            CheckResult::KernelUpdate
         } else {
             CheckResult::Nothing
         }
@@ -130,7 +130,7 @@ mod test {
             },
         };
 
-        assert_eq!(kernel_checker.check(), CheckResult::Reboot);
+        assert_eq!(kernel_checker.check(), CheckResult::KernelUpdate);
     }
 
     #[test]
