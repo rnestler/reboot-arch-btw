@@ -23,20 +23,24 @@ struct Args {
     disable_notification: bool,
 
     /// Comma separated list of packages were we should reboot after an upgrade.
-    #[clap(long, use_delimiter = true, default_value = "systemd,linux-firmware")]
+    #[clap(
+        long,
+        use_value_delimiter = true,
+        default_value = "systemd,linux-firmware"
+    )]
     reboot_packages: Vec<String>,
 
     /// Comma separated list of packages were we should restart our session after an upgrade.
     #[clap(
         long,
-        use_delimiter = true,
+        use_value_delimiter = true,
         default_value = "xorg-server,xorg-xwayland"
     )]
     session_restart_packages: Vec<String>,
 }
 
 fn main() {
-    let args = Args::from_args();
+    let args = Args::parse();
 
     // Initialize Pacman database
     let alpm = alpm::Alpm::new("/", "/var/lib/pacman/")
