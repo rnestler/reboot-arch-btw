@@ -62,27 +62,19 @@ packages which should also trigger a notification if they are updated.
 
 ```
 $ reboot-arch-btw --help
-reboot-arch-btw 0.4.0
 Check the currently installed kernel against the currently running one.
 
-USAGE:
-    reboot-arch-btw [OPTIONS]
+Usage: reboot-arch-btw [OPTIONS]
 
-OPTIONS:
-        --disable-notification
-            Disable desktop notification
-
-    -h, --help
-            Print help information
-
-        --reboot-packages <REBOOT_PACKAGES>
-            Comma separated list of packages were we should reboot after an upgrade [default:
-            systemd,linux-firmware]
-
-        --session-restart-packages <SESSION_RESTART_PACKAGES>
-            Comma separated list of packages were we should restart our session after an upgrade
-            [default: xorg-server,xorg-xwayland]
-
-    -V, --version
-            Print version information
+Options:
+      --disable-notification
+          Disable desktop notification
+      --reboot-packages <REBOOT_PACKAGES>
+          Comma separated list of packages were we should reboot after an upgrade [default: systemd,linux-firmware]
+      --session-restart-packages <SESSION_RESTART_PACKAGES>
+          Comma separated list of packages were we should restart our session after an upgrade [default: xorg-server,xorg-xwayland]
+  -h, --help
+          Print help information
+  -V, --version
+          Print version information
 ```
