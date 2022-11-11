@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.5.1] - 2022-11-11
+
+ * Add amd- and intel-ucode packages to default reboot packages
+   ([#89](https://github.com/rnestler/reboot-arch-btw/pull/89))
+ * Update dependencies
+
 ## [v0.5.0] - 2022-10-25
 
  * Allow to also watch other packages which could make a reboot or restart of
@@ -93,7 +99,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
  * First public release
 
-[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.0...master
+[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.1...master
+[v0.5.1]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.0..v0.5.1
 [v0.5.0]: https://github.com/rnestler/reboot-arch-btw/compare/v0.4.0..v0.5.0
 [v0.4.0]: https://github.com/rnestler/reboot-arch-btw/compare/v0.3.4..v0.4.0
 [v0.3.4]: https://github.com/rnestler/reboot-arch-btw/compare/v0.3.3..v0.3.4

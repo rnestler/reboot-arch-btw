@@ -70,7 +70,7 @@ Options:
       --disable-notification
           Disable desktop notification
       --reboot-packages <REBOOT_PACKAGES>
-          Comma separated list of packages were we should reboot after an upgrade [default: systemd,linux-firmware]
+          Comma separated list of packages were we should reboot after an upgrade [default: systemd,linux-firmware,amd-ucode,intel-ucode]
       --session-restart-packages <SESSION_RESTART_PACKAGES>
           Comma separated list of packages were we should restart our session after an upgrade [default: xorg-server,xorg-xwayland]
   -h, --help
