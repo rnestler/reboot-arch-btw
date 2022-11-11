@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-20.04
     container: rnestler/archlinux-rust:1.63.0
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: cargo build
       - run: cargo test
 
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-20.04
     container: rnestler/archlinux-rust:1.63.0
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: rustup component add clippy
       - run: cargo clippy --all-targets --all-features -- -D warnings
 
@@ -25,6 +25,6 @@ jobs:
     runs-on: ubuntu-20.04
     container: rnestler/archlinux-rust:1.63.0
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: rustup component add rustfmt
       - run: cargo fmt -- --check
