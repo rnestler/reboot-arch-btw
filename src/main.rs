@@ -26,7 +26,7 @@ struct Args {
     #[clap(
         long,
         use_value_delimiter = true,
-        default_value = "systemd,linux-firmware"
+        default_value = "systemd,linux-firmware,amd-ucode,intel-ucode"
     )]
     reboot_packages: Vec<String>,
 
