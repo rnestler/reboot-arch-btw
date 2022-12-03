@@ -1,6 +1,7 @@
 use crate::checks::{Check, CheckResult};
 use crate::package::{get_package_version, PackageInfo};
 use crate::session::SessionInfo;
+use anyhow::Result;
 use log::{info, warn};
 
 pub struct CriticalPackagesCheck<'a> {
@@ -15,15 +16,15 @@ impl CriticalPackagesCheck<'_> {
     pub fn new(
         reboot_package_names: Vec<String>,
         restart_session_package_names: Vec<String>,
-        session_info: SessionInfo,
         alpm_db: alpm::Db,
-    ) -> CriticalPackagesCheck {
-        CriticalPackagesCheck {
+    ) -> Result<CriticalPackagesCheck> {
+        let session_info = SessionInfo::from_utmp()?;
+        Ok(CriticalPackagesCheck {
             reboot_package_names,
             restart_session_package_names,
             session_info,
             alpm_db,
-        }
+        })
     }
 
     fn check_package_list(&self, package_list: &[String], max_install_date: i64) -> bool {

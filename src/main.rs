@@ -58,15 +58,11 @@ fn main() {
         }
     }
 
-    let session_info = session::SessionInfo::from_utmp();
-    if let Ok(session_info) = session_info {
-        let critical_packages_checker = CriticalPackagesCheck::new(
-            args.reboot_packages,
-            args.session_restart_packages,
-            session_info,
-            db,
-        );
-        checkers.push(Box::new(critical_packages_checker));
+    match CriticalPackagesCheck::new(args.reboot_packages, args.session_restart_packages, db) {
+        Ok(critical_packages_checker) => checkers.push(Box::new(critical_packages_checker)),
+        Err(err) => {
+            error!("Could not create critical package checker: {err}")
+        }
     }
 
     let result = checkers
