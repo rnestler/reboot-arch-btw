@@ -31,7 +31,7 @@ impl CriticalPackagesCheck<'_> {
         for package_name in package_list {
             info!("Checking {package_name}");
             let package_info = get_package_version(self.alpm_db, package_name);
-            if let Some(PackageInfo {
+            if let Ok(PackageInfo {
                 install_date: Some(install_date),
                 ..
             }) = package_info

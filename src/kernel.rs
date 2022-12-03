@@ -1,6 +1,6 @@
 use crate::checks::{Check, CheckResult};
 use crate::package::{get_package_version, PackageInfo};
-use anyhow::{anyhow, Result};
+use anyhow::{anyhow, Context, Result};
 use std::process::Command;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -51,7 +51,7 @@ impl KernelChecker {
             "linux".to_owned()
         };
         let installed_kernel = get_package_version(db, &kernel_package)
-            .ok_or_else(|| anyhow!("Could not get version of installed kernel"))?;
+            .with_context(|| anyhow!("Could not get version of installed kernel"))?;
         Ok(KernelChecker {
             kernel_info,
             installed_kernel,
