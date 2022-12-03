@@ -1,3 +1,4 @@
+use anyhow::Result;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 pub struct PackageInfo {
@@ -76,11 +77,9 @@ impl PackageInfo {
     }
 }
 
-pub fn get_package_version(db: alpm::Db, package_name: &str) -> Option<PackageInfo> {
-    match db.pkg(package_name) {
-        Ok(pkg) => Some(PackageInfo::from_package(&pkg)),
-        Err(_) => None,
-    }
+pub fn get_package_version(db: alpm::Db, package_name: &str) -> Result<PackageInfo> {
+    let package = db.pkg(package_name)?;
+    Ok(PackageInfo::from_package(&package))
 }
 
 #[cfg(test)]

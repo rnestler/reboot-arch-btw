@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * Add logging support and replace some println! calls with log messages. This
    results in different stdout and stderr outputs.
    ([#98](https://github.com/rnestler/reboot-arch-btw/pull/98))
+ * Refactor error handling. Most errors will now not panic, but log the error
+   and continue (but not with the full functionality)
+   ([#99](https://github.com/rnestler/reboot-arch-btw/pull/99)
 
 ## [v0.5.1] - 2022-11-11
 

@@ -1,3 +1,4 @@
+use anyhow::{anyhow, Context, Result};
 use time::OffsetDateTime;
 use utmp_rs::UtmpEntry;
 
@@ -8,12 +9,12 @@ pub struct SessionInfo {
 }
 
 impl SessionInfo {
-    pub fn from_utmp() -> Result<SessionInfo, String> {
+    pub fn from_utmp() -> Result<SessionInfo> {
         let entries = utmp_rs::parse_from_path("/var/run/utmp")
-            .map_err(|err| format!("Could not read utmp: {}", err))?;
+            .with_context(|| anyhow!("Could not read utmp"))?;
         Self::from_utmp_entries(&entries)
     }
-    pub fn from_utmp_entries(utmp_entries: &[UtmpEntry]) -> Result<SessionInfo, String> {
+    pub fn from_utmp_entries(utmp_entries: &[UtmpEntry]) -> Result<SessionInfo> {
         let mut boot_time = None;
         let mut session_time = None;
         for entry in utmp_entries {
@@ -33,8 +34,8 @@ impl SessionInfo {
         }
         Ok(SessionInfo {
             // TODO: Should we make this stuff optional and just print warnings?
-            boot_time: *boot_time.ok_or_else(|| "No boot time available".to_owned())?,
-            session_time: *session_time.ok_or_else(|| "No session time available".to_owned())?,
+            boot_time: *boot_time.ok_or_else(|| anyhow!("No boot time available"))?,
+            session_time: *session_time.ok_or_else(|| anyhow!("No session time available"))?,
         })
     }
 }

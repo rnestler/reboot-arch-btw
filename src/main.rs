@@ -5,7 +5,7 @@ use notify_rust::Notification;
 mod package;
 
 mod kernel;
-use kernel::{KernelChecker, KernelInfo};
+use kernel::KernelChecker;
 
 mod checks;
 use checks::{Check, CheckResult};
@@ -49,19 +49,20 @@ fn main() {
         .expect("Could not open pacman database at /var/lib/pacman");
     let db = alpm.localdb();
 
-    let kernel_info = KernelInfo::from_uname().expect("Failed to parse uname output");
+    let mut checkers: Vec<Box<dyn Check>> = vec![];
 
-    let mut checkers: Vec<Box<dyn Check>> = vec![Box::new(KernelChecker::new(kernel_info, db))];
+    match KernelChecker::new(db) {
+        Ok(kernel_checker) => checkers.push(Box::new(kernel_checker)),
+        Err(err) => {
+            error!("Could not create kernel checker: {err:#}")
+        }
+    }
 
-    let session_info = session::SessionInfo::from_utmp();
-    if let Ok(session_info) = session_info {
-        let critical_packages_checker = CriticalPackagesCheck::new(
-            args.reboot_packages,
-            args.session_restart_packages,
-            session_info,
-            db,
-        );
-        checkers.push(Box::new(critical_packages_checker));
+    match CriticalPackagesCheck::new(args.reboot_packages, args.session_restart_packages, db) {
+        Ok(critical_packages_checker) => checkers.push(Box::new(critical_packages_checker)),
+        Err(err) => {
+            error!("Could not create critical package checker: {err:#}")
+        }
     }
 
     let result = checkers
