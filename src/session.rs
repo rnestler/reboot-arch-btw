@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Result};
+use anyhow::{anyhow, Context, Result};
 use time::OffsetDateTime;
 use utmp_rs::UtmpEntry;
 
@@ -11,7 +11,7 @@ pub struct SessionInfo {
 impl SessionInfo {
     pub fn from_utmp() -> Result<SessionInfo> {
         let entries = utmp_rs::parse_from_path("/var/run/utmp")
-            .map_err(|err| anyhow!("Could not read utmp: {}", err))?;
+            .with_context(|| anyhow!("Could not read utmp"))?;
         Self::from_utmp_entries(&entries)
     }
     pub fn from_utmp_entries(utmp_entries: &[UtmpEntry]) -> Result<SessionInfo> {

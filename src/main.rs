@@ -54,14 +54,14 @@ fn main() {
     match KernelChecker::new(db) {
         Ok(kernel_checker) => checkers.push(Box::new(kernel_checker)),
         Err(err) => {
-            error!("Could not create kernel checker: {err}")
+            error!("Could not create kernel checker: {err:#}")
         }
     }
 
     match CriticalPackagesCheck::new(args.reboot_packages, args.session_restart_packages, db) {
         Ok(critical_packages_checker) => checkers.push(Box::new(critical_packages_checker)),
         Err(err) => {
-            error!("Could not create critical package checker: {err}")
+            error!("Could not create critical package checker: {err:#}")
         }
     }
 
