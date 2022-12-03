@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
  * Update dependencies
+ * Add logging support and replace some println! calls with log messages. This
+   results in different stdout and stderr outputs.
+   ([#98](https://github.com/rnestler/reboot-arch-btw/pull/98))
 
 ## [v0.5.1] - 2022-11-11
 
