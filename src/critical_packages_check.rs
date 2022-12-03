@@ -1,6 +1,7 @@
 use crate::checks::{Check, CheckResult};
 use crate::package::{get_package_version, PackageInfo};
 use crate::session::SessionInfo;
+use log::{info, warn};
 
 pub struct CriticalPackagesCheck<'a> {
     /// Compares the installation time of packages to the time since the last boot.
@@ -27,6 +28,7 @@ impl CriticalPackagesCheck<'_> {
 
     fn check_package_list(&self, package_list: &[String], max_install_date: i64) -> bool {
         for package_name in package_list {
+            info!("Checking {package_name}");
             let package_info = get_package_version(self.alpm_db, package_name);
             if let Some(PackageInfo {
                 install_date: Some(install_date),
@@ -40,6 +42,8 @@ impl CriticalPackagesCheck<'_> {
                     );
                     return true;
                 }
+            } else {
+                warn!("Failed to get package info for {package_name}");
             }
         }
         false

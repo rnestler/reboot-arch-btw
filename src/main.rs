@@ -1,4 +1,5 @@
 use clap::Parser;
+use log::error;
 use notify_rust::Notification;
 
 mod package;
@@ -40,6 +41,7 @@ struct Args {
 }
 
 fn main() {
+    env_logger::init();
     let args = Args::parse();
 
     // Initialize Pacman database
@@ -76,7 +78,7 @@ fn main() {
                 .body(result.body())
                 .timeout(6000) //milliseconds
                 .show()
-                .map_err(|e| println!("Couldn't send notification: {}", e))
+                .map_err(|e| error!("Couldn't send notification: {}", e))
                 .ok();
         }
     }
