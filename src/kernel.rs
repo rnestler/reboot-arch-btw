@@ -1,5 +1,6 @@
 use crate::checks::{Check, CheckResult};
 use crate::package::{get_package_version, PackageInfo};
+use anyhow::{anyhow, Result};
 use std::process::Command;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -43,18 +44,20 @@ pub struct KernelChecker {
 }
 
 impl KernelChecker {
-    pub fn new(kernel_info: KernelInfo, db: alpm::Db) -> KernelChecker {
+    pub fn new(db: alpm::Db) -> Result<KernelChecker> {
+        let kernel_info =
+            KernelInfo::from_uname().ok_or(anyhow!("Failed to parse uname output"))?;
         let kernel_package = if let Some(variant) = &kernel_info.variant {
             format!("linux-{}", variant)
         } else {
             "linux".to_owned()
         };
         let installed_kernel = get_package_version(db, &kernel_package)
-            .expect("Could not get version of installed kernel");
-        KernelChecker {
+            .ok_or_else(|| anyhow!("Could not get version of installed kernel"))?;
+        Ok(KernelChecker {
             kernel_info,
             installed_kernel,
-        }
+        })
     }
 }
 
