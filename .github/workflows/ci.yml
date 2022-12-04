@@ -18,6 +18,10 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - uses: actions/cache@v3
+        with:
+          path: target/
+          key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
       - run: cargo build
       - run: cargo test
 
@@ -34,6 +38,10 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - uses: actions/cache@v3
+        with:
+          path: target/
+          key: ${{ runner.os }}-cargo-lint-target-${{ hashFiles('**/Cargo.lock') }}
       - run: rustup component add clippy
       - run: cargo clippy --all-targets --all-features -- -D warnings
 
