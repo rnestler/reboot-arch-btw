@@ -1,5 +1,4 @@
-Reboot Arch BTW
-===============
+# Reboot Arch BTW
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rnestler/reboot-arch-btw/CI)](https://github.com/rnestler/reboot-arch-btw/actions)
 [![Crates.io Version](https://img.shields.io/crates/v/reboot-arch-btw.svg)](https://crates.io/crates/reboot-arch-btw)
@@ -18,8 +17,7 @@ To get the version of the installed kernel it uses libalpm (shipped with
 pacman) to query the local pacman database. To get the version of the running
 kernel it uses `uname -r`.
 
-Install
--------
+## Install
 
 You may just install it from the AUR:
  * https://aur.archlinux.org/packages/reboot-arch-btw for the latest release
@@ -30,8 +28,7 @@ Alternatively one can install it with cargo:
 cargo install reboot-arch-btw
 ```
 
-Build
------
+## Build
 
 This project requires Rust 1.65.0 or newer. Also you need to have dbus
 installed.
@@ -41,8 +38,7 @@ sudo pacman -S dbus
 cargo build
 ```
 
-Usage
------
+## Usage
 
 ```Shell
 $ reboot-arch-btw
