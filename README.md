@@ -74,3 +74,25 @@ Options:
   -V, --version
           Print version information
 ```
+
+### [Pacman Hook](https://wiki.archlinux.org/title/Pacman#Hooks)
+
+You can configure `pacman` to run `reboot-arch-btw` after every upgrade to
+check immediatly if you should reboot. For that create
+`/etc/pacman.d/hooks/99-reboot-arch-btw.hook` with the following content:
+
+```
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = *
+
+[Action]
+Description = Check whether a reboot is required
+Depends = reboot-arch-btw
+When = PostTransaction
+Exec = /usr/bin/sudo -u $USER DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$UID/bus /usr/bin/reboot-arch-btw
+```
+
+Note: You need to replace `$USER` and `$UID` with your actual username and user
+ID.
