@@ -23,6 +23,13 @@ struct Args {
     #[clap(long)]
     disable_notification: bool,
 
+    /// Timeout for the desktop notification in milliseconds.
+    ///
+    /// -1 will leave the timeout to be set by the server and
+    /// 0 will cause the notification never to expire.
+    #[clap(long, default_value = "-1")]
+    notification_timeout: i32,
+
     /// Comma separated list of packages were we should reboot after an upgrade.
     #[clap(
         long,
@@ -77,7 +84,7 @@ fn main() {
             Notification::new()
                 .summary(result.summary())
                 .body(result.body())
-                .timeout(6000) //milliseconds
+                .timeout(args.notification_timeout)
                 .show()
                 .map_err(|e| error!("Couldn't send notification: {}", e))
                 .ok();
