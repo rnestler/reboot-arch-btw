@@ -65,12 +65,27 @@ Usage: reboot-arch-btw [OPTIONS]
 Options:
       --disable-notification
           Disable desktop notification
+
+      --notification-timeout <NOTIFICATION_TIMEOUT>
+          Timeout for the desktop notification in milliseconds.
+
+          -1 will leave the timeout to be set by the server and 0 will cause the notification never to expire.
+
+          [default: -1]
+
       --reboot-packages <REBOOT_PACKAGES>
-          Comma separated list of packages were we should reboot after an upgrade [default: systemd,linux-firmware,amd-ucode,intel-ucode]
+          Comma separated list of packages were we should reboot after an upgrade
+
+          [default: systemd,linux-firmware,amd-ucode,intel-ucode]
+
       --session-restart-packages <SESSION_RESTART_PACKAGES>
-          Comma separated list of packages were we should restart our session after an upgrade [default: xorg-server,xorg-xwayland]
+          Comma separated list of packages were we should restart our session after an upgrade
+
+          [default: xorg-server,xorg-xwayland]
+
   -h, --help
-          Print help information
+          Print help information (use `-h` for a summary)
+
   -V, --version
           Print version information
 ```
