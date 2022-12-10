@@ -58,7 +58,7 @@ packages which should also trigger a notification if they are updated.
 
 ```
 $ reboot-arch-btw --help
-Check the currently installed kernel against the currently running one.
+Check if a reboot is needed due to an updated kernel or other system packages.
 
 Usage: reboot-arch-btw [OPTIONS]
 
