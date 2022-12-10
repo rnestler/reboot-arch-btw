@@ -69,9 +69,13 @@ Options:
       --notification-timeout <NOTIFICATION_TIMEOUT>
           Timeout for the desktop notification in milliseconds.
 
-          -1 will leave the timeout to be set by the server and 0 will cause the notification never to expire.
+          * "default" will leave the timeout to be set by the server.
 
-          [default: -1]
+          * "never" or "0" will cause the notification never to expire.
+
+          * Any other number will be interpreted as the timeout in milliseconds.
+
+          [default: default]
 
       --reboot-packages <REBOOT_PACKAGES>
           Comma separated list of packages were we should reboot after an upgrade
