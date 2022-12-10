@@ -5,7 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v0.5.3] - 2022-12-10
 
- * Make destkop notification timeout configurable
+ * Make desktop notification timeout configurable
    ([#106](https://github.com/rnestler/reboot-arch-btw/pull/106))
  * Update dependencies
 
@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * Allow to also watch other packages which could make a reboot or restart of
    the session necessary.
    ([#78](https://github.com/rnestler/reboot-arch-btw/pull/78))
- * Upgrade to clap 4.0 this slighly changes the CLI interface, mostly the
+ * Upgrade to clap 4.0 this slightly changes the CLI interface, mostly the
    `--help` page.
    ([#82](https://github.com/rnestler/reboot-arch-btw/pull/82))
 
@@ -97,7 +97,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     running:   1.20.8
    target/release/reboot-arch-btw  0.01s user 0.00s system 95% cpu 0.012 total
    ```
-   I did a best out of 5 comparision for the runtime btw.
+   I did a best out of 5 comparison for the runtime btw.
  * Do not panic if xdpyinfo is not available
    ([#31](https://github.com/rnestler/reboot-arch-btw/pull/31))
 
