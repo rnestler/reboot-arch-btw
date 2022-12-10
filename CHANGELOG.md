@@ -3,10 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v0.5.3] - 2022-12-10
 
  * Make destkop notification timeout configurable
    ([#106](https://github.com/rnestler/reboot-arch-btw/pull/106))
+ * Update dependencies
 
 ## [v0.5.2] - 2022-12-04
 
@@ -114,7 +115,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
  * First public release
 
-[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.2...master
+[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.3...master
+[v0.5.3]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.2..v0.5.3
 [v0.5.2]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.1..v0.5.2
 [v0.5.1]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.0..v0.5.1
 [v0.5.0]: https://github.com/rnestler/reboot-arch-btw/compare/v0.4.0..v0.5.0
