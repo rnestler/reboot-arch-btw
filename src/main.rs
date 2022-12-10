@@ -26,7 +26,7 @@ fn timeout_from_str(s: &str) -> Result<Timeout, ParseIntError> {
 #[derive(Debug, Parser)]
 #[clap(
     version,
-    about = "Check the currently installed kernel against the currently running one."
+    about = "Check if a reboot is needed due to an updated kernel or other system packages."
 )]
 struct Args {
     /// Disable desktop notification
