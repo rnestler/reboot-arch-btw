@@ -1,6 +1,6 @@
 # Reboot Arch BTW
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rnestler/reboot-arch-btw/CI)](https://github.com/rnestler/reboot-arch-btw/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/rnestler/reboot-arch-btw/ci.yml?branch=master)](https://github.com/rnestler/reboot-arch-btw/actions)
 [![Crates.io Version](https://img.shields.io/crates/v/reboot-arch-btw.svg)](https://crates.io/crates/reboot-arch-btw)
 [![Crates.io Downloads](https://img.shields.io/crates/d/reboot-arch-btw.svg)](https://crates.io/crates/reboot-arch-btw)
 [![AUR version](https://img.shields.io/aur/version/reboot-arch-btw?label=AUR)](https://aur.archlinux.org/packages/reboot-arch-btw)
