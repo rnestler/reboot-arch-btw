@@ -1,12 +1,23 @@
 use crate::checks::{Check, CheckResult};
 use crate::package::{get_package_version, PackageInfo};
 use anyhow::{anyhow, Context, Result};
+use std::fmt::Display;
 use std::process::Command;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct KernelInfo {
     pub version: String,
     pub variant: Option<String>,
+}
+
+impl Display for KernelInfo {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.version)?;
+        if let Some(variant) = &self.variant {
+            write!(f, "-{}", variant)?;
+        }
+        Ok(())
+    }
 }
 
 impl KernelInfo {
@@ -67,11 +78,11 @@ impl Check for KernelChecker {
         println!("Kernel");
         println!(
             " installed: {} (since {})",
-            cleaned_kernel_version,
+            self.installed_kernel.version,
             self.installed_kernel.installed_reltime()
         );
         let running_kernel_version = &self.kernel_info.version;
-        println!(" running:   {}", running_kernel_version);
+        println!(" running:   {}", self.kernel_info);
         let should_reboot = running_kernel_version != &cleaned_kernel_version;
         if should_reboot {
             CheckResult::KernelUpdate
