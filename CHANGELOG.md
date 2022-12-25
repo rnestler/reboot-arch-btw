@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+ * Show variant of the running kernel in output
+   ([#111](https://github.com/rnestler/reboot-arch-btw/pull/111)
+
 ## [v0.5.3] - 2022-12-10
 
  * Make desktop notification timeout configurable
