@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
  * Show variant of the running kernel in output
    ([#111](https://github.com/rnestler/reboot-arch-btw/pull/111)
+ * Update dependencies
 
 ## [v0.5.3] - 2022-12-10
 
