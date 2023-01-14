@@ -1,5 +1,3 @@
-use std::{num::ParseIntError, str::FromStr};
-
 use clap::Parser;
 use log::error;
 use notify_rust::{Notification, Timeout};
@@ -14,14 +12,6 @@ use checks::{Check, CheckResult};
 mod critical_packages_check;
 use critical_packages_check::CriticalPackagesCheck;
 mod session;
-
-fn timeout_from_str(s: &str) -> Result<Timeout, ParseIntError> {
-    match s {
-        "default" => Ok(Timeout::Default),
-        "never" => Ok(Timeout::Never),
-        milliseconds => Ok(Timeout::Milliseconds(u32::from_str(milliseconds)?)),
-    }
-}
 
 #[derive(Debug, Parser)]
 #[clap(
@@ -40,7 +30,7 @@ struct Args {
     /// * "never" or "0" will cause the notification never to expire.
     ///
     /// * Any other number will be interpreted as the timeout in milliseconds.
-    #[clap(long, value_parser(timeout_from_str), default_value = "default")]
+    #[clap(long, default_value = "default")]
     notification_timeout: Timeout,
 
     /// Comma separated list of packages were we should reboot after an upgrade.
