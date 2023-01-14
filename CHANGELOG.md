@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v0.5.4] - 2023-01-14
 
  * Show variant of the running kernel in output
    ([#111](https://github.com/rnestler/reboot-arch-btw/pull/111)
@@ -121,7 +121,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
  * First public release
 
-[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.3...master
+[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.4...master
+[v0.5.4]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.3..v0.5.4
 [v0.5.3]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.2..v0.5.3
 [v0.5.2]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.1..v0.5.2
 [v0.5.1]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.0..v0.5.1
