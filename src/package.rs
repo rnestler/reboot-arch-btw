@@ -16,7 +16,7 @@ impl PackageInfo {
 
     /// Read a decimal number from the input and return the parsed number and the remaining input
     pub fn read_number(input: &str) -> (Option<u32>, &str) {
-        let res = input.find(|ch| !('0'..='9').contains(&ch));
+        let res = input.find(|ch: char| !ch.is_ascii_digit());
         if res.is_none() {}
         match res {
             None => (input.parse().ok(), ""),
