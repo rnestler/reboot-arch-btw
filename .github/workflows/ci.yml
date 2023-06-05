@@ -7,7 +7,7 @@ env:
 jobs:
   build_and_test:
     runs-on: ubuntu-22.04
-    container: rnestler/archlinux-rust:1.65.0
+    container: rnestler/archlinux-rust:1.70.0
     steps:
       - uses: actions/checkout@v3
       - uses: actions/cache@v3
@@ -27,7 +27,7 @@ jobs:
 
   lint:
     runs-on: ubuntu-22.04
-    container: rnestler/archlinux-rust:1.65.0
+    container: rnestler/archlinux-rust:1.70.0
     steps:
       - uses: actions/checkout@v3
       - uses: actions/cache@v3
@@ -47,7 +47,7 @@ jobs:
 
   fmt:
     runs-on: ubuntu-22.04
-    container: rnestler/archlinux-rust:1.65.0
+    container: rnestler/archlinux-rust:1.70.0
     steps:
       - uses: actions/checkout@v3
       - run: rustup component add rustfmt

@@ -30,7 +30,7 @@ cargo install reboot-arch-btw
 
 ## Build
 
-This project requires Rust 1.65.0 or newer. Also you need to have dbus
+This project requires Rust 1.70.0 or newer. Also you need to have dbus
 installed.
 
 ```Shell
