@@ -148,6 +148,17 @@ mod test {
         );
     }
 
+    #[test]
+    fn test_kernel_version_from_uname_output_ck_generic_v3() {
+        let kernel_version = KernelInfo::from_uname_output("6.4.1-2-ck-generic-v3").unwrap();
+        assert_eq!(
+            KernelInfo {
+                version: "6.4.1.2".to_owned(),
+                variant: Some("ck-generic-v3".to_owned()),
+            },
+            kernel_version
+        );
+    }
 
     #[test]
     fn test_kernel_checker_should_reboot() {
