@@ -136,6 +136,18 @@ mod test {
             kernel_version
         );
     }
+    #[test]
+    fn test_kernel_version_from_uname_output_rust() {
+        let kernel_version = KernelInfo::from_uname_output("6.3.9-arch1-1-rust").unwrap();
+        assert_eq!(
+            KernelInfo {
+                version: "6.3.9.arch1.1".to_owned(),
+                variant: Some("rust".to_owned()),
+            },
+            kernel_version
+        );
+    }
+
 
     #[test]
     fn test_kernel_checker_should_reboot() {
