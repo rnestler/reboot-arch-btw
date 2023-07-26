@@ -21,6 +21,14 @@ impl Display for KernelInfo {
     }
 }
 
+/// These variants trip up our auto-detection since they contain multiple dashes and numbers
+const WELL_KNOWN_VARIANTS: [&str; 4] = [
+    "ck-generic",
+    "ck-generic-v2",
+    "ck-generic-v3",
+    "ck-generic-v4",
+];
+
 impl KernelInfo {
     pub fn from_uname() -> Result<KernelInfo> {
         let output_uname = Command::new("uname").arg("-r").output()?;
@@ -31,6 +39,19 @@ impl KernelInfo {
         // uname output is in the form version-ARCH
         let uname_output = uname_output.trim();
         info!("uname -r output: {uname_output}");
+
+        if let Some(variant) = WELL_KNOWN_VARIANTS
+            .iter()
+            .find(|variant| uname_output.ends_with(*variant))
+        {
+            return Ok(KernelInfo {
+                version: uname_output
+                    .trim_end_matches(variant)
+                    .trim_end_matches('-')
+                    .replace('-', "."),
+                variant: Some(variant.to_string()),
+            });
+        }
 
         let last_dash = uname_output
             .rfind('-')
