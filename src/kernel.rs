@@ -1,6 +1,7 @@
 use crate::checks::{Check, CheckResult};
 use crate::package::{get_package_version, PackageInfo};
 use anyhow::{anyhow, Context, Result};
+use log::info;
 use std::fmt::Display;
 use std::process::Command;
 
@@ -29,6 +30,8 @@ impl KernelInfo {
     pub fn from_uname_output(uname_output: &str) -> Result<KernelInfo> {
         // uname output is in the form version-ARCH
         let uname_output = uname_output.trim();
+        info!("uname -r output: {uname_output}");
+
         let last_dash = uname_output
             .rfind('-')
             .ok_or_else(|| anyhow!("Could not find '-' in uname output: {uname_output}"))?;
@@ -61,8 +64,10 @@ impl KernelChecker {
         } else {
             "linux".to_owned()
         };
+        info!("Detected kernel package: {kernel_package}");
         let installed_kernel = get_package_version(db, &kernel_package)
             .with_context(|| anyhow!("Could not get version of installed kernel"))?;
+        info!("kernel package version: {}", installed_kernel.version);
         Ok(KernelChecker {
             kernel_info,
             installed_kernel,
