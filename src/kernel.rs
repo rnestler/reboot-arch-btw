@@ -21,6 +21,14 @@ impl Display for KernelInfo {
     }
 }
 
+/// These variants trip up our auto-detection since they contain multiple dashes and numbers
+const WELL_KNOWN_VARIANTS: [&str; 4] = [
+    "ck-generic",
+    "ck-generic-v2",
+    "ck-generic-v3",
+    "ck-generic-v4",
+];
+
 impl KernelInfo {
     pub fn from_uname() -> Result<KernelInfo> {
         let output_uname = Command::new("uname").arg("-r").output()?;
@@ -31,6 +39,19 @@ impl KernelInfo {
         // uname output is in the form version-ARCH
         let uname_output = uname_output.trim();
         info!("uname -r output: {uname_output}");
+
+        if let Some(variant) = WELL_KNOWN_VARIANTS
+            .iter()
+            .find(|variant| uname_output.ends_with(*variant))
+        {
+            return Ok(KernelInfo {
+                version: uname_output
+                    .trim_end_matches(variant)
+                    .trim_end_matches('-')
+                    .replace('-', "."),
+                variant: Some(variant.to_string()),
+            });
+        }
 
         let last_dash = uname_output
             .rfind('-')
@@ -132,6 +153,29 @@ mod test {
             KernelInfo {
                 version: "5.15.69.1".to_owned(),
                 variant: Some("lts".to_owned()),
+            },
+            kernel_version
+        );
+    }
+    #[test]
+    fn test_kernel_version_from_uname_output_rust() {
+        let kernel_version = KernelInfo::from_uname_output("6.3.9-arch1-1-rust").unwrap();
+        assert_eq!(
+            KernelInfo {
+                version: "6.3.9.arch1.1".to_owned(),
+                variant: Some("rust".to_owned()),
+            },
+            kernel_version
+        );
+    }
+
+    #[test]
+    fn test_kernel_version_from_uname_output_ck_generic_v3() {
+        let kernel_version = KernelInfo::from_uname_output("6.4.1-2-ck-generic-v3").unwrap();
+        assert_eq!(
+            KernelInfo {
+                version: "6.4.1.2".to_owned(),
+                variant: Some("ck-generic-v3".to_owned()),
             },
             kernel_version
         );

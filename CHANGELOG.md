@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+ * Fix detection of the ck-generic- kernel variants
+   ([#137](https://github.com/rnestler/reboot-arch-btw/pull/137))
+
 ## [v0.5.5] - 2023-05-23
 
  * Update dependencies
