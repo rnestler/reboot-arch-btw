@@ -23,7 +23,7 @@ edition = "2021"
 [dependencies]
 alpm = "2.1.0"
 clap = { version = "4.4.2", features = ["help", "usage", "error-context", "std", "derive"], default-features = false }
-notify-rust = "4.8"
+notify-rust = "4.9"
 utmp-rs = "0.3.0"
 time = "0.3.28"
 log = "0.4.20"
