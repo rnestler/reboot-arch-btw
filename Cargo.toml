@@ -25,7 +25,7 @@ alpm = "2.1.0"
 clap = { version = "4.4.6", features = ["help", "usage", "error-context", "std", "derive"], default-features = false }
 notify-rust = "4.9"
 utmp-rs = "0.3.0"
-time = "0.3.28"
+time = "0.3.29"
 log = "0.4.20"
 env_logger = "0.10.0"
 anyhow = "1.0.75"
