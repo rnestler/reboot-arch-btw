@@ -1,6 +1,6 @@
 [package]
 name = "reboot-arch-btw"
-version = "0.5.7"
+version = "0.6.0"
 repository = "https://github.com/rnestler/reboot-arch-btw"
 license = "GPL-3.0-only"
 authors = [
@@ -27,5 +27,5 @@ notify-rust = "4.10"
 utmp-rs = "0.3.0"
 time = "0.3.31"
 log = "0.4.20"
-env_logger = "0.10.1"
+env_logger = "0.11.0"
 anyhow = "1.0.78"
