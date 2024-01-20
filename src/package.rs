@@ -104,10 +104,11 @@ mod test {
     #[test]
     fn test_cleanup_pkg_version_missing_patch_digit() {
         assert_eq!(
-            PackageInfo::cleanup_kernel_version("5.16.arch1-1"),
-            Some("5.16.0.arch1.1".to_owned()),
+            PackageInfo::cleanup_kernel_version("6.7.arch3-1"),
+            Some("6.7.0.arch3.1".to_owned())
         );
     }
+
     #[test]
     fn test_read_number_none() {
         assert_eq!((None, "foo"), PackageInfo::read_number("foo"));
