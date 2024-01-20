@@ -104,7 +104,7 @@ impl Check for KernelChecker {
         println!("Kernel");
         println!(
             " installed: {} (since {})",
-            self.installed_kernel.version,
+            cleaned_kernel_version,
             self.installed_kernel.installed_reltime()
         );
         let running_kernel_version = &self.kernel_info.version;
