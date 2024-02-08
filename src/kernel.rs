@@ -65,7 +65,7 @@ impl KernelInfo {
             let version = uname_output[0..last_dash].replace('-', ".");
 
             if variant == "MANJARO" {
-                return Ok(Self::get_manjaro_kernel_info(version));
+                return Self::get_manjaro_kernel_info(version);
             }
 
             Ok(KernelInfo {
@@ -82,12 +82,20 @@ impl KernelInfo {
         }
     }
 
-    fn get_manjaro_kernel_info(version: String) -> KernelInfo {
-        KernelInfo {
-            version,
+    fn get_manjaro_kernel_info(version: String) -> Result<KernelInfo> {
+        let mut version_iter = version.split('.');
+        let major = version_iter
+            .next()
+            .ok_or_else(|| anyhow!("Could not find major version"))?;
+        let minor = version_iter
+            .next()
+            .ok_or_else(|| anyhow!("Could not find minor version"))?;
+
+        Ok(KernelInfo {
             variant: Some("MANJARO".to_string()),
-            package_name: "TODO".to_string(),
-        }
+            package_name: format!("linux{major}{minor}"),
+            version,
+        })
     }
 }
 
