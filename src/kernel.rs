@@ -64,6 +64,10 @@ impl KernelInfo {
             let variant = last_part.to_string();
             let version = uname_output[0..last_dash].replace('-', ".");
 
+            if variant == "MANJARO" {
+                return Ok(Self::get_manjaro_kernel_info(version));
+            }
+
             Ok(KernelInfo {
                 version,
                 package_name: format!("linux-{variant}"),
@@ -75,6 +79,14 @@ impl KernelInfo {
                 variant: None,
                 package_name: "linux".to_string(),
             })
+        }
+    }
+
+    fn get_manjaro_kernel_info(version: String) -> KernelInfo {
+        KernelInfo {
+            version,
+            variant: Some("MANJARO".to_string()),
+            package_name: "TODO".to_string(),
         }
     }
 }
@@ -174,6 +186,19 @@ mod test {
             },
             kernel_version
         );
+    }
+
+    #[test]
+    fn test_kernel_verion_from_uname_output_manjaro() {
+        let kernel_version = KernelInfo::from_uname_output("6.1.71-1-MANJARO").unwrap();
+        assert_eq!(
+            KernelInfo {
+                version: "6.1.71.1".to_owned(),
+                variant: Some("MANJARO".to_owned()),
+                package_name: "linux61".to_owned()
+            },
+            kernel_version
+        )
     }
 
     #[test]
