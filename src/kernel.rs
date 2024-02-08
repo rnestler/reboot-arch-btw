@@ -9,6 +9,7 @@ use std::process::Command;
 pub struct KernelInfo {
     pub version: String,
     pub variant: Option<String>,
+    pub package_name: String,
 }
 
 impl Display for KernelInfo {
@@ -50,6 +51,7 @@ impl KernelInfo {
                     .trim_end_matches('-')
                     .replace('-', "."),
                 variant: Some(variant.to_string()),
+                package_name: format!("linux-{variant}"),
             });
         }
 
@@ -59,14 +61,19 @@ impl KernelInfo {
         let last_part = &uname_output[last_dash + 1..];
         // if the last part is text it is a kernel variant
         if last_part.chars().all(char::is_alphabetic) {
+            let variant = last_part.to_string();
+            let version = uname_output[0..last_dash].replace('-', ".");
+
             Ok(KernelInfo {
-                version: uname_output[0..last_dash].replace('-', "."),
-                variant: Some(last_part.to_string()),
+                version,
+                package_name: format!("linux-{variant}"),
+                variant: Some(variant),
             })
         } else {
             Ok(KernelInfo {
                 version: uname_output.replace('-', "."),
                 variant: None,
+                package_name: "linux".to_string(),
             })
         }
     }
@@ -80,13 +87,9 @@ pub struct KernelChecker {
 impl KernelChecker {
     pub fn new(db: alpm::Db) -> Result<KernelChecker> {
         let kernel_info = KernelInfo::from_uname()?;
-        let kernel_package = if let Some(variant) = &kernel_info.variant {
-            format!("linux-{}", variant)
-        } else {
-            "linux".to_owned()
-        };
+        let kernel_package = &kernel_info.package_name;
         info!("Detected kernel package: {kernel_package}");
-        let installed_kernel = get_package_version(db, &kernel_package)
+        let installed_kernel = get_package_version(db, kernel_package)
             .with_context(|| anyhow!("Could not get version of installed kernel"))?;
         info!("kernel package version: {}", installed_kernel.version);
         Ok(KernelChecker {
@@ -129,6 +132,7 @@ mod test {
             KernelInfo {
                 version: "5.6.13.arch1.1".to_string(),
                 variant: None,
+                package_name: "linux".to_string(),
             },
             kernel_version
         );
@@ -141,6 +145,7 @@ mod test {
             KernelInfo {
                 version: "5.6.11.zen1.1".to_owned(),
                 variant: Some("zen".to_owned()),
+                package_name: "linux-zen".to_owned(),
             },
             kernel_version
         );
@@ -153,6 +158,7 @@ mod test {
             KernelInfo {
                 version: "5.15.69.1".to_owned(),
                 variant: Some("lts".to_owned()),
+                package_name: "linux-lts".to_owned(),
             },
             kernel_version
         );
@@ -164,6 +170,7 @@ mod test {
             KernelInfo {
                 version: "6.3.9.arch1.1".to_owned(),
                 variant: Some("rust".to_owned()),
+                package_name: "linux-rust".to_owned(),
             },
             kernel_version
         );
@@ -176,6 +183,7 @@ mod test {
             KernelInfo {
                 version: "6.4.1.2".to_owned(),
                 variant: Some("ck-generic-v3".to_owned()),
+                package_name: "linux-ck-generic-v3".to_owned(),
             },
             kernel_version
         );
