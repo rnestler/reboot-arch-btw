@@ -3,10 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v0.7.0] - 2024-02-09
 
  * Add support for the Manjaro kernel
    ([#165](https://github.com/rnestler/reboot-arch-btw/pull/165))
+ * Update dependencies
 
 ## [v0.6.0] - 2024-01-20
 
@@ -149,7 +150,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
  * First public release
 
-[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v0.6.0...master
+[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v0.7.0...master
+[v0.7.0]: https://github.com/rnestler/reboot-arch-btw/compare/v0.6.0..v0.7.0
 [v0.6.0]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.7..v0.6.0
 [v0.5.7]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.6..v0.5.7
 [v0.5.6]: https://github.com/rnestler/reboot-arch-btw/compare/v0.5.5..v0.5.6
