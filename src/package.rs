@@ -76,9 +76,9 @@ impl PackageInfo {
     }
 }
 
-pub fn get_package_version(db: alpm::Db, package_name: &str) -> Result<PackageInfo> {
+pub fn get_package_version(db: &alpm::Db, package_name: &str) -> Result<PackageInfo> {
     let package = db.pkg(package_name)?;
-    Ok(PackageInfo::from_package(&package))
+    Ok(PackageInfo::from_package(package))
 }
 
 #[cfg(test)]
