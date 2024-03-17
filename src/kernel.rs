@@ -105,7 +105,7 @@ pub struct KernelChecker {
 }
 
 impl KernelChecker {
-    pub fn new(db: alpm::Db) -> Result<KernelChecker> {
+    pub fn new(db: &alpm::Db) -> Result<KernelChecker> {
         let kernel_info = KernelInfo::from_uname()?;
         let kernel_package = &kernel_info.package_name;
         info!("Detected kernel package: {kernel_package}");

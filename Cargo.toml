@@ -20,8 +20,15 @@ include = [
 ]
 edition = "2021"
 
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
 [dependencies]
-alpm = "2.2.3"
+alpm = "*"
 clap = { version = "4.5.1", features = ["help", "usage", "error-context", "std", "derive"], default-features = false }
 notify-rust = "4.10"
 utmp-rs = "0.3.0"
