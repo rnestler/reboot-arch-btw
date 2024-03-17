@@ -9,14 +9,14 @@ pub struct CriticalPackagesCheck<'a> {
     reboot_package_names: Vec<String>,
     restart_session_package_names: Vec<String>,
     session_info: SessionInfo,
-    alpm_db: alpm::Db<'a>,
+    alpm_db: &'a alpm::Db,
 }
 
 impl CriticalPackagesCheck<'_> {
     pub fn new(
         reboot_package_names: Vec<String>,
         restart_session_package_names: Vec<String>,
-        alpm_db: alpm::Db,
+        alpm_db: &alpm::Db,
     ) -> Result<CriticalPackagesCheck> {
         let session_info = SessionInfo::from_utmp()?;
         Ok(CriticalPackagesCheck {
