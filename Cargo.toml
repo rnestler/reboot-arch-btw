@@ -31,3 +31,4 @@ env_logger = "0.11.2"
 anyhow = "1.0.80"
 i18n-embed = { version = "0.13.4" , features = ["fluent-system", "desktop-requester"]}
 rust-embed = "6"
+i18n-embed-fl = "0.8.0"
