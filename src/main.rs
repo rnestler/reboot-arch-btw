@@ -1,4 +1,6 @@
 use clap::Parser;
+use i18n_embed::{fluent::fluent_language_loader, DesktopLanguageRequester};
+use rust_embed::RustEmbed;
 use log::error;
 use notify_rust::{Notification, Timeout};
 
@@ -12,6 +14,10 @@ use checks::{Check, CheckResult};
 mod critical_packages_check;
 use critical_packages_check::CriticalPackagesCheck;
 mod session;
+
+#[derive(RustEmbed)]
+#[folder = "i18n"]
+struct Localizations;
 
 #[derive(Debug, Parser)]
 #[clap(
@@ -53,6 +59,10 @@ struct Args {
 fn main() {
     env_logger::init();
     let args = Args::parse();
+
+    let language_loader = fluent_language_loader!();
+    let requested_languages = DesktopLanguageRequester::requested_languages();
+    let _ = i18n_embed::select(&language_loader, &Localizations, &requested_languages);
 
     // Initialize Pacman database
     let alpm = alpm::Alpm::new("/", "/var/lib/pacman/")
