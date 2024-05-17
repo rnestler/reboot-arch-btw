@@ -48,6 +48,10 @@ struct Args {
         default_value = "xorg-server,xorg-xwayland"
     )]
     session_restart_packages: Vec<String>,
+
+    // Don't print kernel info to terminal if kernel is up to date
+    #[clap(short, long)]
+    quiet: bool,
 }
 
 fn main() {
@@ -61,7 +65,7 @@ fn main() {
 
     let mut checkers: Vec<Box<dyn Check>> = vec![];
 
-    match KernelChecker::new(db) {
+    match KernelChecker::new(db, args.quiet) {
         Ok(kernel_checker) => checkers.push(Box::new(kernel_checker)),
         Err(err) => {
             error!("Could not create kernel checker: {err:#}")
