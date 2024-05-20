@@ -49,9 +49,9 @@ struct Args {
     )]
     session_restart_packages: Vec<String>,
 
-    // Don't print kernel info to terminal if kernel is up to date
+    // Print kernel version info.
     #[clap(short, long)]
-    quiet: bool,
+    verbose: bool,
 }
 
 fn main() {
@@ -65,14 +65,19 @@ fn main() {
 
     let mut checkers: Vec<Box<dyn Check>> = vec![];
 
-    match KernelChecker::new(db, args.quiet) {
+    match KernelChecker::new(db, args.verbose) {
         Ok(kernel_checker) => checkers.push(Box::new(kernel_checker)),
         Err(err) => {
             error!("Could not create kernel checker: {err:#}")
         }
     }
 
-    match CriticalPackagesCheck::new(args.reboot_packages, args.session_restart_packages, db) {
+    match CriticalPackagesCheck::new(
+        args.reboot_packages,
+        args.session_restart_packages,
+        db,
+        args.verbose,
+    ) {
         Ok(critical_packages_checker) => checkers.push(Box::new(critical_packages_checker)),
         Err(err) => {
             error!("Could not create critical package checker: {err:#}")

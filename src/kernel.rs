@@ -102,11 +102,11 @@ impl KernelInfo {
 pub struct KernelChecker {
     kernel_info: KernelInfo,
     installed_kernel: PackageInfo,
-    quiet: bool,
+    verbose: bool,
 }
 
 impl KernelChecker {
-    pub fn new(db: &alpm::Db, quiet: bool) -> Result<KernelChecker> {
+    pub fn new(db: &alpm::Db, verbose: bool) -> Result<KernelChecker> {
         let kernel_info = KernelInfo::from_uname()?;
         let kernel_package = &kernel_info.package_name;
         info!("Detected kernel package: {kernel_package}");
@@ -116,7 +116,7 @@ impl KernelChecker {
         Ok(KernelChecker {
             kernel_info,
             installed_kernel,
-            quiet,
+            verbose,
         })
     }
 }
@@ -128,7 +128,7 @@ impl Check for KernelChecker {
                 .expect("Could not clean version of installed kernel");
         let running_kernel_version = &self.kernel_info.version;
         let should_reboot = running_kernel_version != &cleaned_kernel_version;
-        if !self.quiet || should_reboot {
+        if self.verbose {
             println!("Kernel");
             println!(
                 " installed: {} (since {})",
@@ -234,7 +234,7 @@ mod test {
                 version: "5.19.11.arch1-1".to_owned(),
                 install_date: None,
             },
-            quiet: false,
+            verbose: false,
         };
 
         assert_eq!(kernel_checker.check(), CheckResult::KernelUpdate);
@@ -248,7 +248,7 @@ mod test {
                 version: "5.19.9.arch1-1".to_owned(),
                 install_date: None,
             },
-            quiet: false,
+            verbose: false,
         };
 
         assert_eq!(kernel_checker.check(), CheckResult::Nothing);

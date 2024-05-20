@@ -10,6 +10,7 @@ pub struct CriticalPackagesCheck<'a> {
     restart_session_package_names: Vec<String>,
     session_info: SessionInfo,
     alpm_db: &'a alpm::Db,
+    verbose: bool,
 }
 
 impl CriticalPackagesCheck<'_> {
@@ -17,6 +18,7 @@ impl CriticalPackagesCheck<'_> {
         reboot_package_names: Vec<String>,
         restart_session_package_names: Vec<String>,
         alpm_db: &alpm::Db,
+        verbose: bool,
     ) -> Result<CriticalPackagesCheck> {
         let session_info = SessionInfo::from_utmp()?;
         Ok(CriticalPackagesCheck {
@@ -24,6 +26,7 @@ impl CriticalPackagesCheck<'_> {
             restart_session_package_names,
             session_info,
             alpm_db,
+            verbose,
         })
     }
 
@@ -37,10 +40,12 @@ impl CriticalPackagesCheck<'_> {
             }) = package_info
             {
                 if install_date > max_install_date {
-                    println!(
-                        "{package_name} updated {}",
-                        package_info.unwrap().installed_reltime()
-                    );
+                    if self.verbose {
+                        println!(
+                            "{package_name} updated {}",
+                            package_info.unwrap().installed_reltime()
+                        );
+                    }
                     return true;
                 }
             } else {
