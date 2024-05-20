@@ -102,10 +102,11 @@ impl KernelInfo {
 pub struct KernelChecker {
     kernel_info: KernelInfo,
     installed_kernel: PackageInfo,
+    verbose: bool,
 }
 
 impl KernelChecker {
-    pub fn new(db: &alpm::Db) -> Result<KernelChecker> {
+    pub fn new(db: &alpm::Db, verbose: bool) -> Result<KernelChecker> {
         let kernel_info = KernelInfo::from_uname()?;
         let kernel_package = &kernel_info.package_name;
         info!("Detected kernel package: {kernel_package}");
@@ -115,6 +116,7 @@ impl KernelChecker {
         Ok(KernelChecker {
             kernel_info,
             installed_kernel,
+            verbose,
         })
     }
 }
@@ -124,15 +126,17 @@ impl Check for KernelChecker {
         let cleaned_kernel_version =
             PackageInfo::cleanup_kernel_version(&self.installed_kernel.version)
                 .expect("Could not clean version of installed kernel");
-        println!("Kernel");
-        println!(
-            " installed: {} (since {})",
-            cleaned_kernel_version,
-            self.installed_kernel.installed_reltime()
-        );
         let running_kernel_version = &self.kernel_info.version;
-        println!(" running:   {}", self.kernel_info);
         let should_reboot = running_kernel_version != &cleaned_kernel_version;
+        if self.verbose {
+            println!("Kernel");
+            println!(
+                " installed: {} (since {})",
+                cleaned_kernel_version,
+                self.installed_kernel.installed_reltime()
+            );
+            println!(" running:   {}", self.kernel_info);
+        }
         if should_reboot {
             CheckResult::KernelUpdate
         } else {
@@ -230,6 +234,7 @@ mod test {
                 version: "5.19.11.arch1-1".to_owned(),
                 install_date: None,
             },
+            verbose: false,
         };
 
         assert_eq!(kernel_checker.check(), CheckResult::KernelUpdate);
@@ -243,6 +248,7 @@ mod test {
                 version: "5.19.9.arch1-1".to_owned(),
                 install_date: None,
             },
+            verbose: false,
         };
 
         assert_eq!(kernel_checker.check(), CheckResult::Nothing);

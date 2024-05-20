@@ -48,6 +48,10 @@ struct Args {
         default_value = "xorg-server,xorg-xwayland"
     )]
     session_restart_packages: Vec<String>,
+
+    /// Print kernel version info and show updated packages.
+    #[clap(short, long)]
+    verbose: bool,
 }
 
 fn main() {
@@ -61,14 +65,19 @@ fn main() {
 
     let mut checkers: Vec<Box<dyn Check>> = vec![];
 
-    match KernelChecker::new(db) {
+    match KernelChecker::new(db, args.verbose) {
         Ok(kernel_checker) => checkers.push(Box::new(kernel_checker)),
         Err(err) => {
             error!("Could not create kernel checker: {err:#}")
         }
     }
 
-    match CriticalPackagesCheck::new(args.reboot_packages, args.session_restart_packages, db) {
+    match CriticalPackagesCheck::new(
+        args.reboot_packages,
+        args.session_restart_packages,
+        db,
+        args.verbose,
+    ) {
         Ok(critical_packages_checker) => checkers.push(Box::new(critical_packages_checker)),
         Err(err) => {
             error!("Could not create critical package checker: {err:#}")
