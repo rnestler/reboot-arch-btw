@@ -49,7 +49,7 @@ struct Args {
     )]
     session_restart_packages: Vec<String>,
 
-    // Print kernel version info.
+    /// Always print kernel version info and show updated packages.
     #[clap(short, long)]
     verbose: bool,
 }
