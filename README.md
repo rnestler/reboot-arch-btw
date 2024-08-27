@@ -53,6 +53,9 @@ It will also show a [desktop
 notification](https://wiki.archlinux.org/title/Desktop_notifications)
 indicating that you probably want to reboot your system.
 
+If no restart is needed, `reboot-arch-btw` won't output anything by default.
+Use `--verbose` to always get some output.
+
 One can use `--reboot-packages` or `--reboot-packages` to set the list of
 packages which should also trigger a notification if they are updated.
 
