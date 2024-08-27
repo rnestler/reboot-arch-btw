@@ -87,11 +87,14 @@ Options:
 
           [default: xorg-server,xorg-xwayland]
 
+  -v, --verbose
+          Print kernel version info and show updated packages
+
   -h, --help
-          Print help information (use `-h` for a summary)
+          Print help (see a summary with '-h')
 
   -V, --version
-          Print version information
+          Print version
 ```
 
 ### [Pacman Hook](https://wiki.archlinux.org/title/Pacman#Hooks)
