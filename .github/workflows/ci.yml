@@ -10,7 +10,7 @@ env:
 
 jobs:
   build_and_test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     container: rnestler/archlinux-rust:1.80.1
     steps:
       - run: pacman -Syu --noconfirm
@@ -31,7 +31,7 @@ jobs:
       - run: cargo test
 
   lint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     container: rnestler/archlinux-rust:1.80.1
     steps:
       - run: pacman -Syu --noconfirm
@@ -52,7 +52,7 @@ jobs:
       - run: cargo clippy --all-targets --all-features -- -D warnings
 
   fmt:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     container: rnestler/archlinux-rust:1.80.1
     steps:
       - run: pacman -Syu --noconfirm
