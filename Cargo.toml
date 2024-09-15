@@ -21,7 +21,7 @@ include = [
 edition = "2021"
 
 [dependencies]
-alpm = "3.0.5"
+alpm = "4.0.0"
 clap = { version = "4.5.13", features = ["help", "usage", "error-context", "std", "derive"], default-features = false }
 notify-rust = "4.11"
 utmp-rs = "0.3.0"
