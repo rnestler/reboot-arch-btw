@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Context, Result};
+use anyhow::{Context, Result, anyhow};
 use time::OffsetDateTime;
 use utmp_rs::UtmpEntry;
 

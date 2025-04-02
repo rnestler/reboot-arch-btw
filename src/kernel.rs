@@ -1,6 +1,6 @@
 use crate::checks::{Check, CheckResult};
-use crate::package::{get_package_version, PackageInfo};
-use anyhow::{anyhow, Context, Result};
+use crate::package::{PackageInfo, get_package_version};
+use anyhow::{Context, Result, anyhow};
 use log::info;
 use std::fmt::Display;
 use std::process::Command;
