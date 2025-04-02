@@ -11,9 +11,8 @@ env:
 jobs:
   build_and_test:
     runs-on: ubuntu-24.04
-    container: rnestler/archlinux-rust:1.80.1
+    container: rnestler/archlinux-rust:1.85.1
     steps:
-      - run: pacman -Syu --noconfirm
       - uses: actions/checkout@v3
       - uses: actions/cache@v3
         with:
@@ -32,9 +31,8 @@ jobs:
 
   lint:
     runs-on: ubuntu-24.04
-    container: rnestler/archlinux-rust:1.80.1
+    container: rnestler/archlinux-rust:1.85.1
     steps:
-      - run: pacman -Syu --noconfirm
       - uses: actions/checkout@v3
       - uses: actions/cache@v3
         with:
@@ -53,9 +51,8 @@ jobs:
 
   fmt:
     runs-on: ubuntu-24.04
-    container: rnestler/archlinux-rust:1.80.1
+    container: rnestler/archlinux-rust:1.85.1
     steps:
-      - run: pacman -Syu --noconfirm
       - uses: actions/checkout@v3
       - run: rustup component add rustfmt
       - run: cargo fmt -- --check

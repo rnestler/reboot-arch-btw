@@ -1,5 +1,5 @@
 use crate::checks::{Check, CheckResult};
-use crate::package::{get_package_version, PackageInfo};
+use crate::package::{PackageInfo, get_package_version};
 use crate::session::SessionInfo;
 use anyhow::Result;
 use log::{info, warn};
