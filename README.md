@@ -11,7 +11,8 @@ the kernel got updated and suddenly your USB drive won't mount because the
 needed kernel module can't get loaded.
 
 It can also detect if critical packages like systemd got updated which may also
-make a reboot necessary.
+make a reboot necessary or if packages like xorg-server got upgraded which may
+make a session restart necessary.
 
 To get the version of the installed kernel it uses libalpm (shipped with
 pacman) to query the local pacman database. To get the version of the running
@@ -98,6 +99,17 @@ Options:
 
   -V, --version
           Print version
+```
+
+### Alias for configuration
+
+I recommend to configure an alias with the packages of the desktop environment
+you use.
+
+This is my configuration with `sway` and `sddm`:
+
+```
+alias rab="reboot-arch-btw --verbose --session-restart-packages xorg-server,xorg-xwayland,sway,sddm"
 ```
 
 ### [Pacman Hook](https://wiki.archlinux.org/title/Pacman#Hooks)
