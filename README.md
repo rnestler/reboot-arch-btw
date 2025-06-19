@@ -101,6 +101,17 @@ Options:
           Print version
 ```
 
+### Alias for configuration
+
+I recommend to configure an alias with the packages of the desktop environment
+you use.
+
+This is my configuration with `sway` and `sddm`:
+
+```
+alias rab="reboot-arch-btw --verbose --session-restart-packages xorg-server,xorg-xwayland,sway,sddm"
+```
+
 ### [Pacman Hook](https://wiki.archlinux.org/title/Pacman#Hooks)
 
 You can configure `pacman` to run `reboot-arch-btw` after every upgrade to
