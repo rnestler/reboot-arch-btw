@@ -22,7 +22,7 @@ edition = "2024"
 
 [dependencies]
 alpm = "4.0.3"
-clap = { version = "4.5.39", features = ["help", "usage", "error-context", "std", "derive"], default-features = false }
+clap = { version = "4.5.42", features = ["help", "usage", "error-context", "std", "derive"], default-features = false }
 notify-rust = { version = "4.11", features = ["d"], default-features = false }
 utmp-rs = "0.4.0"
 time = "0.3.41"
