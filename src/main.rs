@@ -1,4 +1,4 @@
-use clap::Parser;
+use gumdrop::Options;
 use log::error;
 use notify_rust::{Notification, Timeout};
 
@@ -13,14 +13,24 @@ mod critical_packages_check;
 use critical_packages_check::CriticalPackagesCheck;
 mod session;
 
-#[derive(Debug, Parser)]
-#[clap(
-    version,
-    about = "Check if a reboot is needed due to an updated kernel or other system packages."
-)]
+fn parse_comma_separated_list(input: &str) -> Result<Vec<String>, String> {
+    let items = input
+        .split(',')
+        .map(|item| item.trim().to_string())
+        .collect();
+    Ok(items)
+}
+
+#[derive(Debug, Options)]
+// #[clap(
+//     version,
+//     about = "Check if a reboot is needed due to an updated kernel or other system packages."
+// )]
 struct Args {
+    help: bool,
+
     /// Disable desktop notification
-    #[clap(long)]
+    #[options(no_short)]
     disable_notification: bool,
 
     /// Timeout for the desktop notification in milliseconds.
@@ -30,33 +40,34 @@ struct Args {
     /// * "never" or "0" will cause the notification never to expire.
     ///
     /// * Any other number will be interpreted as the timeout in milliseconds.
-    #[clap(long, default_value = "default")]
+    #[options(no_short, default = "default")]
     notification_timeout: Timeout,
 
     /// Comma separated list of packages were we should reboot after an upgrade.
-    #[clap(
-        long,
-        use_value_delimiter = true,
-        default_value = "systemd,linux-firmware,amd-ucode,intel-ucode"
+    #[options(
+        no_short,
+        no_multi,
+        default = "systemd,linux-firmware,amd-ucode,intel-ucode",
+        parse(try_from_str = "parse_comma_separated_list")
     )]
     reboot_packages: Vec<String>,
 
     /// Comma separated list of packages were we should restart our session after an upgrade.
-    #[clap(
-        long,
-        use_value_delimiter = true,
-        default_value = "xorg-server,xorg-xwayland"
+    #[options(
+        no_short,
+        no_multi,
+        default = "xorg-server,xorg-xwayland",
+        parse(try_from_str = "parse_comma_separated_list")
     )]
     session_restart_packages: Vec<String>,
 
     /// Print kernel version info and show updated packages.
-    #[clap(short, long)]
     verbose: bool,
 }
 
 fn main() {
     env_logger::init();
-    let args = Args::parse();
+    let args = Args::parse_args_default_or_exit();
 
     // Initialize Pacman database
     let alpm = alpm::Alpm::new("/", "/var/lib/pacman/")
