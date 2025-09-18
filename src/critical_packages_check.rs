@@ -19,7 +19,7 @@ impl CriticalPackagesCheck<'_> {
         restart_session_package_names: Vec<String>,
         alpm_db: &alpm::Db,
         verbose: bool,
-    ) -> Result<CriticalPackagesCheck> {
+    ) -> Result<CriticalPackagesCheck<'_>> {
         let session_info = SessionInfo::from_utmp()?;
         Ok(CriticalPackagesCheck {
             reboot_package_names,
