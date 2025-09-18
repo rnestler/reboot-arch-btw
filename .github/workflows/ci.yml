@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-24.04
     container: rnestler/archlinux-rust:1.90.0
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
       - uses: actions/cache@v4
         with:
           path: |
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-24.04
     container: rnestler/archlinux-rust:1.90.0
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
       - uses: actions/cache@v4
         with:
           path: |
@@ -53,6 +53,6 @@ jobs:
     runs-on: ubuntu-24.04
     container: rnestler/archlinux-rust:1.90.0
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
       - run: rustup component add rustfmt
       - run: cargo fmt -- --check
