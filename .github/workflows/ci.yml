@@ -14,6 +14,7 @@ jobs:
     container: rnestler/archlinux-rust:1.92.0
     steps:
       - uses: actions/checkout@v6
+      - run: pacman -Syu --noconfirm
       - uses: actions/cache@v4
         with:
           path: |
@@ -34,6 +35,7 @@ jobs:
     container: rnestler/archlinux-rust:1.92.0
     steps:
       - uses: actions/checkout@v6
+      - run: pacman -Syu --noconfirm
       - uses: actions/cache@v4
         with:
           path: |
