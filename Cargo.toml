@@ -1,6 +1,6 @@
 [package]
 name = "reboot-arch-btw"
-version = "0.9.1"
+version = "0.9.2"
 repository = "https://github.com/rnestler/reboot-arch-btw"
 license = "GPL-3.0-only"
 authors = [
