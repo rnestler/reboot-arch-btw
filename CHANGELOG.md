@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+ * Reduce binary size by enabling LTO, optimize for size and only use 1
+   codegen-unit
+
 ## [v0.9.1] - 2025-12-15
 
  * Update alpm to support libalpm v16 from the latest pacman upgrade
