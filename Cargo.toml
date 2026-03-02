@@ -22,13 +22,13 @@ edition = "2024"
 
 [dependencies]
 alpm = "5.0.0"
-clap = { version = "4.5.56", features = ["help", "usage", "error-context", "std", "derive"], default-features = false }
-notify-rust = { version = "4.11", features = ["d"], default-features = false }
+clap = { version = "4.5.60", features = ["help", "usage", "error-context", "std", "derive"], default-features = false }
+notify-rust = { version = "4.12", features = ["d"], default-features = false }
 utmp-rs = "0.4.0"
 time = "0.3.47"
 log = "0.4.27"
-env_logger = "0.11.6"
-anyhow = "1.0.100"
+env_logger = "0.11.9"
+anyhow = "1.0.102"
 
 [profile.release]
 opt-level = 'z'
