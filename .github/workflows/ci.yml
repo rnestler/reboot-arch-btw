@@ -11,7 +11,7 @@ env:
 jobs:
   build_and_test:
     runs-on: ubuntu-24.04
-    container: rnestler/archlinux-rust:1.92.0
+    container: rnestler/archlinux-rust:1.94.0
     steps:
       - uses: actions/checkout@v6
       - run: pacman -Syu --noconfirm
@@ -32,7 +32,7 @@ jobs:
 
   lint:
     runs-on: ubuntu-24.04
-    container: rnestler/archlinux-rust:1.92.0
+    container: rnestler/archlinux-rust:1.94.0
     steps:
       - uses: actions/checkout@v6
       - run: pacman -Syu --noconfirm
@@ -53,7 +53,7 @@ jobs:
 
   fmt:
     runs-on: ubuntu-24.04
-    container: rnestler/archlinux-rust:1.92.0
+    container: rnestler/archlinux-rust:1.94.0
     steps:
       - uses: actions/checkout@v6
       - run: rustup component add rustfmt
