@@ -23,10 +23,10 @@ edition = "2024"
 [dependencies]
 alpm = "5.0.0"
 clap = { version = "4.6.1", features = ["help", "usage", "error-context", "std", "derive"], default-features = false }
-notify-rust = { version = "4.16", features = ["d"], default-features = false }
+notify-rust = { version = "4.17", features = ["d"], default-features = false }
 utmp-rs = "0.4.0"
 time = "0.3.47"
-log = "0.4.27"
+log = "0.4.30"
 env_logger = { version = "0.11.9", features = ["humantime"], default-features = false }
 anyhow = "1.0.102"
 
