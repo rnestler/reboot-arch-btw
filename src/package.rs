@@ -125,4 +125,19 @@ mod test {
     fn test_read_number() {
         assert_eq!((Some(1), ".1-foo"), PackageInfo::read_number("1.1-foo"));
     }
+
+    #[test]
+    fn test_installed_reltime_future_install_date() {
+        // A package with an install date in the future (e.g. clock skew) must
+        // not wrap into a garbage value but clamp to "0 seconds ago".
+        let now = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+        let package = PackageInfo {
+            version: "1.0.0-1".to_owned(),
+            install_date: Some((now + 3600) as i64),
+        };
+        assert_eq!(package.installed_reltime(), "0 seconds ago");
+    }
 }
