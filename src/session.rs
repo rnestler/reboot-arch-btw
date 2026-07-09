@@ -10,7 +10,7 @@ pub struct SessionInfo {
 
 impl SessionInfo {
     pub fn from_utmp() -> Result<SessionInfo> {
-        let entries = utmp_rs::parse_from_path("/var/run/utmp")
+        let entries = utmp_rs::parse_from_path("/run/utmp")
             .with_context(|| anyhow!("Could not read utmp"))?;
         Self::from_utmp_entries(&entries)
     }
