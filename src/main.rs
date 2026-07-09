@@ -33,7 +33,7 @@ struct Args {
     #[clap(long, default_value = "default")]
     notification_timeout: Timeout,
 
-    /// Comma separated list of packages were we should reboot after an upgrade.
+    /// Comma separated list of packages where we should reboot after an upgrade.
     #[clap(
         long,
         use_value_delimiter = true,
@@ -41,7 +41,7 @@ struct Args {
     )]
     reboot_packages: Vec<String>,
 
-    /// Comma separated list of packages were we should restart our session after an upgrade.
+    /// Comma separated list of packages where we should restart our session after an upgrade.
     #[clap(
         long,
         use_value_delimiter = true,
