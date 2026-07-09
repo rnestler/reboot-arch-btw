@@ -63,7 +63,9 @@ impl PackageInfo {
             .duration_since(UNIX_EPOCH)
             .expect("Time went backwards!")
             .as_secs();
-        let delta = now - install_date;
+        // Clamp to 0 if the install date is in the future (e.g. clock skew) to
+        // avoid wrapping into a garbage value (overflow checks are off in release).
+        let delta = now.saturating_sub(install_date);
         if delta < 60 {
             format!("{} seconds ago", delta)
         } else if delta < 7200 {
