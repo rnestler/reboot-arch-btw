@@ -33,23 +33,24 @@ impl CriticalPackagesCheck<'_> {
     fn check_package_list(&self, package_list: &[String], max_install_date: i64) -> bool {
         for package_name in package_list {
             info!("Checking {package_name}");
-            let package_info = get_package_version(self.alpm_db, package_name);
-            if let Ok(PackageInfo {
-                install_date: Some(install_date),
-                ..
-            }) = package_info
-            {
-                if install_date > max_install_date {
-                    if self.verbose {
-                        println!(
-                            "{package_name} updated {}",
-                            package_info.unwrap().installed_reltime()
-                        );
+            match get_package_version(self.alpm_db, package_name) {
+                Ok(
+                    package_info @ PackageInfo {
+                        install_date: Some(install_date),
+                        ..
+                    },
+                ) => {
+                    if install_date > max_install_date {
+                        if self.verbose {
+                            println!(
+                                "{package_name} updated {}",
+                                package_info.installed_reltime()
+                            );
+                        }
+                        return true;
                     }
-                    return true;
                 }
-            } else {
-                warn!("Failed to get package info for {package_name}");
+                _ => warn!("Failed to get package info for {package_name}"),
             }
         }
         false
