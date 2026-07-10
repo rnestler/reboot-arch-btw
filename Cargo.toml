@@ -12,6 +12,7 @@ description = "Check if you need to reboot due to an updated kernel. (I use Arch
 readme = "README.md"
 keywords = ["i-use-arch-btw", "arch", "linux", "kernel"]
 categories = ["command-line-utilities"]
+rust-version = "1.94"
 include = [
     "**/*.rs",
     "Cargo.toml",
