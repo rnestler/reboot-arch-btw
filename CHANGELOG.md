@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * Fix wrong "install time ago" output when a package's install date is in the
    future (e.g. due to clock skew)
  * Declare a minimum supported Rust version (1.94)
+ * Update dependencies
 
 ## [v1.0.0] - 2026-03-09
 
