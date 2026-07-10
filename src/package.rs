@@ -126,6 +126,38 @@ mod test {
         assert_eq!((Some(1), ".1-foo"), PackageInfo::read_number("1.1-foo"));
     }
 
+    fn reltime_for_secs_ago(secs_ago: u64) -> String {
+        let now = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+        PackageInfo {
+            version: "1.0.0-1".to_owned(),
+            install_date: Some((now - secs_ago) as i64),
+        }
+        .installed_reltime()
+    }
+
+    #[test]
+    fn test_installed_reltime_buckets() {
+        // Values are picked mid-bucket so a second or two of wall-clock jitter
+        // between capturing `now` here and inside `installed_reltime` can't
+        // flip the result across a boundary.
+        assert!(reltime_for_secs_ago(5).ends_with("seconds ago"));
+        assert_eq!(reltime_for_secs_ago(150), "2 minutes ago");
+        assert_eq!(reltime_for_secs_ago(3600 * 3 + 100), "3 hours ago");
+        assert_eq!(reltime_for_secs_ago(3600 * 24 * 5 + 100), "5 days ago");
+    }
+
+    #[test]
+    fn test_installed_reltime_unknown() {
+        let package = PackageInfo {
+            version: "1.0.0-1".to_owned(),
+            install_date: None,
+        };
+        assert_eq!(package.installed_reltime(), "unknown");
+    }
+
     #[test]
     fn test_installed_reltime_future_install_date() {
         // A package with an install date in the future (e.g. clock skew) must
