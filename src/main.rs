@@ -58,15 +58,22 @@ struct Args {
     ///   0 = nothing to do
     ///   1 = reboot needed
     ///   2 = session restart needed
-    /// Unexpected errors (e.g. failure to open the pacman database) will
-    /// panic and result in exit code 101 regardless of this flag.
+    /// Regardless of this flag, unexpected errors (e.g. failure to open the
+    /// pacman database) will panic and exit with code 101, while invalid
+    /// command line arguments will exit with code 64.
     #[clap(long)]
     exit_code: bool,
 }
 
 fn main() {
     env_logger::init();
-    let args = Args::parse();
+    let args = match Args::try_parse() {
+        Ok(args) => args,
+        Err(e) => {
+            let _ = e.print();
+            std::process::exit(64);
+        }
+    };
 
     // Initialize Pacman database
     let alpm = alpm::Alpm::new("/", "/var/lib/pacman/")
