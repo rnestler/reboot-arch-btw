@@ -71,6 +71,9 @@ fn main() {
         Ok(args) => args,
         Err(e) => {
             let _ = e.print();
+            if e.exit_code() == 0 {
+                std::process::exit(0);
+            }
             std::process::exit(64);
         }
     };
