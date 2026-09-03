@@ -31,6 +31,7 @@ impl CriticalPackagesCheck<'_> {
     }
 
     fn check_package_list(&self, package_list: &[String], max_install_date: i64) -> bool {
+        let mut any_updated = false;
         for package_name in package_list {
             info!("Checking {package_name}");
             match get_package_version(self.alpm_db, package_name) {
@@ -47,13 +48,13 @@ impl CriticalPackagesCheck<'_> {
                                 package_info.installed_reltime()
                             );
                         }
-                        return true;
+                        any_updated = true;
                     }
                 }
                 _ => warn!("Failed to get package info for {package_name}"),
             }
         }
-        false
+        any_updated
     }
 }
 
@@ -62,10 +63,14 @@ impl Check for CriticalPackagesCheck<'_> {
         let boot_time = self.session_info.boot_time.unix_timestamp();
         let session_time = self.session_info.session_time.unix_timestamp();
 
-        if self.check_package_list(&self.reboot_package_names, boot_time) {
+        let reboot_needed = self.check_package_list(&self.reboot_package_names, boot_time);
+        let session_needed =
+            self.check_package_list(&self.restart_session_package_names, session_time);
+
+        if reboot_needed {
             return CheckResult::Reboot;
         }
-        if self.check_package_list(&self.restart_session_package_names, session_time) {
+        if session_needed {
             return CheckResult::RestartSession;
         }
         CheckResult::Nothing
