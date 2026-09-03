@@ -22,15 +22,10 @@ There are two open TODOs in `src/session.rs`:
 - **JSON / formatted output**: Add `--json` or `--format` flags so users can
   integrate the output into status bars (polybar, waybar, eww, custom scripts,
   etc.).
-- **Meaningful exit codes**: Currently `main()` always exits `0`. Proposal:
-  add an **opt-in `--exit-code` flag** that returns non-zero exit codes based on
-  severity (e.g. `0` = nothing, `1` = reboot needed, `2` = session restart
-  needed). This makes scripting much easier without breaking pacman hooks:
-  `PostTransaction` hooks ignore non-zero exits (they do **not** abort the
-  transaction), and `PreTransaction` hooks only abort if the `AbortOnFail`
-  directive is explicitly set.
-  **Decision**: Make it opt-in via `--exit-code` so existing hook users are
-  unaffected.
+- ✅ **Meaningful exit codes**: Implemented via the `--exit-code` flag. Returns
+  `0` = nothing, `1` = reboot needed, `2` = session restart needed, `64` = CLI
+  usage error. Regardless of `--exit-code`, unexpected errors that cause a panic
+  still exit with code `101`.
 
 ## 3. Configuration File Support
 
@@ -46,9 +41,8 @@ support for a config file (e.g.
 
 ## 4. Enhanced Reporting in Verbose Mode
 
-- **List all updated packages**: Currently only the *first* matching package in
-  each list is reported. In verbose mode, it could show *all* packages that were
-  updated since boot/session start.
+- ✅ **List all updated packages**: Implemented — in verbose mode all matching
+  updated packages are now reported instead of only the first one.
 - **Urgency levels in notifications**: Set `notify-rust` urgency to `Critical`
   for kernel updates, `Normal` for reboots, and `Low` for session restarts.
 
