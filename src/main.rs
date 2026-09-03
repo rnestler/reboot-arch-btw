@@ -1,4 +1,5 @@
 use clap::Parser;
+
 use log::error;
 use notify_rust::{Notification, Timeout};
 
@@ -52,11 +53,27 @@ struct Args {
     /// Print kernel version info and show updated packages.
     #[clap(short, long)]
     verbose: bool,
+
+    /// Return a non-zero exit code based on the check result:
+    ///   0 = nothing to do
+    ///   1 = reboot needed
+    ///   2 = session restart needed
+    /// Regardless of this flag, unexpected errors (e.g. failure to open the
+    /// pacman database) will panic and exit with code 101, while invalid
+    /// command line arguments will exit with code 64.
+    #[clap(long)]
+    exit_code: bool,
 }
 
 fn main() {
     env_logger::init();
-    let args = Args::parse();
+    let args = match Args::try_parse() {
+        Ok(args) => args,
+        Err(e) => {
+            let _ = e.print();
+            std::process::exit(64);
+        }
+    };
 
     // Initialize Pacman database
     let alpm = alpm::Alpm::new("/", "/var/lib/pacman/")
@@ -101,5 +118,14 @@ fn main() {
                 .map_err(|e| error!("Couldn't send notification: {}", e))
                 .ok();
         }
+    }
+
+    if args.exit_code {
+        let code = match result {
+            CheckResult::Nothing => 0,
+            CheckResult::Reboot | CheckResult::KernelUpdate => 1,
+            CheckResult::RestartSession => 2,
+        };
+        std::process::exit(code);
     }
 }

@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * Update minimum supported Rust version to 1.97.0
  * In verbose mode, list all updated reboot/session-restart packages instead of
    only the first one
+ * Add `--exit-code` flag to return a non-zero exit code based on the check
+   result: 0 = nothing to do, 1 = reboot needed, 2 = session restart needed.
+   Regardless of this flag, unexpected errors (e.g. failure to open the pacman
+   database) will panic and exit with code 101, while invalid command line
+   arguments will exit with code 64.
 
 ## [v1.0.1] - 2026-07-10
 
