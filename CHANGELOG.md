@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.1.0] - 2026-09-03
+
  * Update minimum supported Rust version to 1.97.0
  * In verbose mode, list all updated reboot/session-restart packages instead of
    only the first one
@@ -212,7 +214,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
  * First public release
 
-[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v1.0.1...master
+[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v1.1.0...master
+[v1.1.0]: https://github.com/rnestler/reboot-arch-btw/compare/v1.0.1..v1.1.0
 [v1.0.1]: https://github.com/rnestler/reboot-arch-btw/compare/v1.0.0..v1.0.1
 [v1.0.0]: https://github.com/rnestler/reboot-arch-btw/compare/v0.9.2..v1.0.0
 [v0.9.2]: https://github.com/rnestler/reboot-arch-btw/compare/v0.9.1..v0.9.2
