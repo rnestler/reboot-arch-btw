@@ -1,4 +1,5 @@
 use clap::Parser;
+
 use log::error;
 use notify_rust::{Notification, Timeout};
 
@@ -52,6 +53,15 @@ struct Args {
     /// Print kernel version info and show updated packages.
     #[clap(short, long)]
     verbose: bool,
+
+    /// Return a non-zero exit code based on the check result:
+    ///   0 = nothing to do
+    ///   1 = reboot needed
+    ///   2 = session restart needed
+    /// Unexpected errors (e.g. failure to open the pacman database) will
+    /// panic and result in exit code 101 regardless of this flag.
+    #[clap(long)]
+    exit_code: bool,
 }
 
 fn main() {
@@ -101,5 +111,14 @@ fn main() {
                 .map_err(|e| error!("Couldn't send notification: {}", e))
                 .ok();
         }
+    }
+
+    if args.exit_code {
+        let code = match result {
+            CheckResult::Nothing => 0,
+            CheckResult::Reboot | CheckResult::KernelUpdate => 1,
+            CheckResult::RestartSession => 2,
+        };
+        std::process::exit(code);
     }
 }
