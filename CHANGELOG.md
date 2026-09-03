@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
  * Update minimum supported Rust version to 1.97.0
+ * In verbose mode, list all updated reboot/session-restart packages instead of
+   only the first one
 
 ## [v1.0.1] - 2026-07-10
 
