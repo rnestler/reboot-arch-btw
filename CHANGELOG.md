@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+ * Support Arch Linux ARM kernel package names (e.g. `linux-aarch64`) (#252)
+
 ## [v1.1.1] - 2026-09-03
 
  * Fix `--version` and `--help` to exit with 0 instead of 64
