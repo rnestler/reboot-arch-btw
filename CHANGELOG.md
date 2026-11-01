@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v1.2.0] - 2026-11-01
 
  * Support Arch Linux ARM kernel package names (e.g. `linux-aarch64`) (#252)
+ * Update dependencies
 
 ## [v1.1.1] - 2026-09-03
 
