@@ -55,6 +55,18 @@ impl KernelInfo {
             });
         }
 
+        // Arch Linux ARM kernels are in the form version-variant-ARCH, e.g. 7.2.6-1-aarch64-ARCH
+        if let Some(without_suffix) = uname_output.strip_suffix("-ARCH") {
+            let (version, variant) = without_suffix.rsplit_once('-').ok_or_else(|| {
+                anyhow!("Could not find variant in Arch Linux ARM uname output: {uname_output}")
+            })?;
+            return Ok(KernelInfo {
+                version: version.replace('-', "."),
+                variant: Some(variant.to_string()),
+                package_name: format!("linux-{variant}"),
+            });
+        }
+
         let last_dash = uname_output
             .rfind('-')
             .ok_or_else(|| anyhow!("Could not find '-' in uname output: {uname_output}"))?;
@@ -224,6 +236,47 @@ mod test {
             },
             kernel_version
         );
+    }
+
+    #[test]
+    fn test_kernel_version_from_uname_output_arch_linux_arm() {
+        let kernel_version = KernelInfo::from_uname_output("7.2.6-1-aarch64-ARCH").unwrap();
+        assert_eq!(
+            KernelInfo {
+                version: "7.2.6.1".to_owned(),
+                variant: Some("aarch64".to_owned()),
+                package_name: "linux-aarch64".to_owned(),
+            },
+            kernel_version
+        );
+    }
+
+    #[test]
+    fn test_kernel_checker_arch_linux_arm_should_not_reboot() {
+        let kernel_checker = KernelChecker {
+            kernel_info: KernelInfo::from_uname_output("7.2.6-1-aarch64-ARCH").unwrap(),
+            installed_kernel: PackageInfo {
+                version: "7.2.6-1".to_owned(),
+                install_date: None,
+            },
+            verbose: false,
+        };
+
+        assert_eq!(kernel_checker.check(), CheckResult::Nothing);
+    }
+
+    #[test]
+    fn test_kernel_checker_arch_linux_arm_should_reboot() {
+        let kernel_checker = KernelChecker {
+            kernel_info: KernelInfo::from_uname_output("7.2.6-1-aarch64-ARCH").unwrap(),
+            installed_kernel: PackageInfo {
+                version: "7.2.7-1".to_owned(),
+                install_date: None,
+            },
+            verbose: false,
+        };
+
+        assert_eq!(kernel_checker.check(), CheckResult::KernelUpdate);
     }
 
     #[test]
