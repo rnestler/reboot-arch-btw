@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.2.0] - 2026-11-01
+
  * Support Arch Linux ARM kernel package names (e.g. `linux-aarch64`) (#252)
 
 ## [v1.1.1] - 2026-09-03
@@ -220,7 +222,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
  * First public release
 
-[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v1.1.1...master
+[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v1.2.0...master
+[v1.2.0]: https://github.com/rnestler/reboot-arch-btw/compare/v1.1.1..v1.2.0
 [v1.1.1]: https://github.com/rnestler/reboot-arch-btw/compare/v1.1.0..v1.1.1
 [v1.1.0]: https://github.com/rnestler/reboot-arch-btw/compare/v1.0.1..v1.1.0
 [v1.0.1]: https://github.com/rnestler/reboot-arch-btw/compare/v1.0.0..v1.0.1
