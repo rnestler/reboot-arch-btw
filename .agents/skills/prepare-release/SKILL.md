@@ -58,7 +58,8 @@ git add Cargo.toml Cargo.lock && git commit -m "Bump version to X.Y.Z"
 
 ## 7. Check README.md
 
-Look for hardcoded version references or outdated examples. Most version references are dynamic badges, but check manually just in case.
+- Look for hardcoded version references or outdated examples.
+- Check if the `--help` output block is stale. If new CLI flags were added, update it by running `cargo build` and pasting the current `reboot-arch-btw --help` output.
 
 ## 8. Optional: tick off ideas
 
@@ -85,6 +86,7 @@ git push origin vX.Y.Z
 - [ ] `CHANGELOG.md`: version header + date + links
 - [ ] `Cargo.toml`: version bumped
 - [ ] `Cargo.lock`: refreshed
+- [ ] `README.md`: `--help` output and examples up to date
 - [ ] Committed
 - [ ] PR opened and merged
 - [ ] Signed tag `vX.Y.Z` pushed
