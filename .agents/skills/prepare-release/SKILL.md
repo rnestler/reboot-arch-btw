@@ -23,7 +23,7 @@ Based on the now-complete `## [Unreleased]` section, propose patch/minor/major.
 ## 3. Create branch
 
 ```
-git checkout -b release/vX.Y.Z
+git checkout -b prepare-X.Y.Z-release
 ```
 
 ## 4. Update dependencies
@@ -34,8 +34,6 @@ git add Cargo.lock
 git commit -m "Update dependencies"
 ```
 
-**Always do this first.**
-
 ## 5. Update CHANGELOG
 
 - Replace `## [Unreleased]` with `## [vX.Y.Z] - YYYY-MM-DD`
@@ -45,37 +43,28 @@ git commit -m "Update dependencies"
   [vX.Y.Z]: https://github.com/rnestler/reboot-arch-btw/compare/vPREVIOUS..vX.Y.Z
   ```
 
+```
+git add CHANGELOG.md && git commit -m "Prepare CHANGELOG for X.Y.Z release"
+```
+
 ## 6. Bump version
 
 In `Cargo.toml`: `version = "X.Y.Z"`
 
 ```
 cargo update --workspace
+git add Cargo.toml Cargo.lock && git commit -m "Bump version to X.Y.Z"
 ```
 
 ## 7. Optional: tick off ideas
 
 If any `improvement-ideas.md` items were implemented, mark them `✅`.
 
-## 8. Commit
+## 8. Open PR (by user)
 
-**Multi-commit (preferred):**
-```
-git add Cargo.toml Cargo.lock && git commit -m "Bump version to X.Y.Z"
-git add CHANGELOG.md && git commit -m "Prepare CHANGELOG for X.Y.Z release"
-```
+Ask user to push and open PR titled `Release vX.Y.Z` or `Prepare X.Y.Z release`.
 
-**Single commit (tiny patch releases only):**
-```
-git add CHANGELOG.md Cargo.toml Cargo.lock
-git commit -m "Prepare CHANGELOG and bump version for X.Y.Z release"
-```
-
-## 9. Open PR
-
-Push and open PR titled `Release vX.Y.Z` or `Prepare X.Y.Z release`.
-
-## 10. Tag after merge
+## 9. Tag after merge (by user)
 
 ```bash
 git tag -s vX.Y.Z -m "Version X.Y.Z
