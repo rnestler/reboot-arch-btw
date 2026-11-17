@@ -1,7 +1,7 @@
 use clap::Parser;
 
 use log::error;
-use notify_rust::{Notification, Timeout};
+use notify_rust::{Notification, Timeout, Urgency};
 
 mod package;
 
@@ -13,6 +13,31 @@ use checks::{Check, CheckResult};
 mod critical_packages_check;
 use critical_packages_check::CriticalPackagesCheck;
 mod session;
+
+#[derive(Debug, Clone, Copy)]
+enum NotificationUrgency {
+    Auto,
+    Low,
+    Normal,
+    Critical,
+}
+
+impl std::str::FromStr for NotificationUrgency {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s.to_lowercase().as_str() {
+            "auto" => Ok(Self::Auto),
+            "low" => Ok(Self::Low),
+            "normal" => Ok(Self::Normal),
+            "critical" => Ok(Self::Critical),
+            _ => Err(format!(
+                "Expected one of: auto, low, normal, critical. Got: {}",
+                s
+            )),
+        }
+    }
+}
 
 #[derive(Debug, Parser)]
 #[clap(
@@ -49,6 +74,15 @@ struct Args {
         default_value = "xorg-server,xorg-xwayland"
     )]
     session_restart_packages: Vec<String>,
+
+    /// Set the urgency level for desktop notifications.
+    ///
+    /// * "auto" sets the urgency based on the check result (the default):
+    ///   kernel updates are critical, reboots are normal, session restarts are low.
+    ///
+    /// * "low", "normal", or "critical" sets a fixed urgency level for all notifications.
+    #[clap(long, default_value = "auto")]
+    notification_urgency: NotificationUrgency,
 
     /// Print kernel version info and show updated packages.
     #[clap(short, long)]
@@ -113,10 +147,16 @@ fn main() {
     if result > CheckResult::Nothing {
         println!("{}", result.summary());
         if !args.disable_notification {
+            let urgency = match args.notification_urgency {
+                NotificationUrgency::Auto => result.urgency(),
+                NotificationUrgency::Low => Urgency::Low,
+                NotificationUrgency::Normal => Urgency::Normal,
+                NotificationUrgency::Critical => Urgency::Critical,
+            };
             Notification::new()
                 .summary(result.summary())
                 .body(result.body())
-                .urgency(result.urgency())
+                .urgency(urgency)
                 .timeout(args.notification_timeout)
                 .show()
                 .map_err(|e| error!("Couldn't send notification: {}", e))
