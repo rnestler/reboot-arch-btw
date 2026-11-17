@@ -61,7 +61,7 @@ struct Args {
 
     /// Set the urgency level for desktop notifications.
     ///
-    /// * "auto" sets the urgency based on the check result (the default):
+    /// * "auto" sets the urgency based on the check result:
     ///   kernel updates are critical, reboots are normal, session restarts are low.
     ///
     /// * "low", "normal", or "critical" sets a fixed urgency level for all notifications.
