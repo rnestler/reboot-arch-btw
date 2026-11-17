@@ -81,18 +81,30 @@ Options:
 
           [default: default]
 
+      --notification-urgency <NOTIFICATION_URGENCY>
+          Set the urgency level for desktop notifications.
+
+          * "auto" sets the urgency based on the check result: kernel updates are critical, reboots are normal, session restarts are low.
+
+          * "low", "normal", or "critical" sets a fixed urgency level for all notifications.
+
+          [default: auto]
+
       --reboot-packages <REBOOT_PACKAGES>
-          Comma separated list of packages were we should reboot after an upgrade
+          Comma separated list of packages where we should reboot after an upgrade
 
           [default: systemd,linux-firmware,amd-ucode,intel-ucode]
 
       --session-restart-packages <SESSION_RESTART_PACKAGES>
-          Comma separated list of packages were we should restart our session after an upgrade
+          Comma separated list of packages where we should restart our session after an upgrade
 
           [default: xorg-server,xorg-xwayland]
 
   -v, --verbose
           Print kernel version info and show updated packages
+
+      --exit-code
+          Return a non-zero exit code based on the check result: 0 = nothing to do 1 = reboot needed 2 = session restart needed Regardless of this flag, unexpected errors (e.g. failure to open the pacman database) will panic and exit with code 101, while invalid command line arguments will exit with code 64
 
   -h, --help
           Print help (see a summary with '-h')

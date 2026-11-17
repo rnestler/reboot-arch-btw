@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.3.0] - 2026-11-17
+
  * Add `--notification-urgency` flag to configure desktop notification urgency.
    `auto` (default) sets urgency based on the check result: kernel updates are
    critical, reboots are normal, and session restarts are low. It can also be
@@ -228,7 +230,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
  * First public release
 
-[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v1.2.0...master
+[Unreleased]: https://github.com/rnestler/reboot-arch-btw/compare/v1.3.0...master
+[v1.3.0]: https://github.com/rnestler/reboot-arch-btw/compare/v1.2.0..v1.3.0
 [v1.2.0]: https://github.com/rnestler/reboot-arch-btw/compare/v1.1.1..v1.2.0
 [v1.1.1]: https://github.com/rnestler/reboot-arch-btw/compare/v1.1.0..v1.1.1
 [v1.1.0]: https://github.com/rnestler/reboot-arch-btw/compare/v1.0.1..v1.1.0
