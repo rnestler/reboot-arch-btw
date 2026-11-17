@@ -5,17 +5,28 @@ description: Prepare a new release for reboot-arch-btw. Use when cutting a relea
 
 # Prepare a New Release for reboot-arch-btw
 
-## 1. Determine version
+## 1. Check git history
 
-Propose a version based on `CHANGELOG.md` `[Unreleased]` changes (patch/minor/major).
+```
+git log $(git describe --tags --abbrev=0)..HEAD --oneline --no-merges
+```
 
-## 2. Create branch
+Add any missing user-facing changes to `## [Unreleased]` in `CHANGELOG.md`:
+```
+ * Description (#<pr>)
+```
+
+## 2. Determine version
+
+Based on the now-complete `## [Unreleased]` section, propose patch/minor/major.
+
+## 3. Create branch
 
 ```
 git checkout -b release/vX.Y.Z
 ```
 
-## 3. Update dependencies
+## 4. Update dependencies
 
 ```
 cargo update
@@ -25,9 +36,7 @@ git commit -m "Update dependencies"
 
 **Always do this first.**
 
-## 4. Update CHANGELOG
-
-In `CHANGELOG.md`:
+## 5. Update CHANGELOG
 
 - Replace `## [Unreleased]` with `## [vX.Y.Z] - YYYY-MM-DD`
 - Update links at the bottom:
@@ -36,7 +45,7 @@ In `CHANGELOG.md`:
   [vX.Y.Z]: https://github.com/rnestler/reboot-arch-btw/compare/vPREVIOUS..vX.Y.Z
   ```
 
-## 5. Bump version
+## 6. Bump version
 
 In `Cargo.toml`: `version = "X.Y.Z"`
 
@@ -44,11 +53,11 @@ In `Cargo.toml`: `version = "X.Y.Z"`
 cargo update --workspace
 ```
 
-## 6. Optional: tick off ideas
+## 7. Optional: tick off ideas
 
 If any `improvement-ideas.md` items were implemented, mark them `✅`.
 
-## 7. Commit
+## 8. Commit
 
 **Multi-commit (preferred):**
 ```
@@ -62,11 +71,11 @@ git add CHANGELOG.md Cargo.toml Cargo.lock
 git commit -m "Prepare CHANGELOG and bump version for X.Y.Z release"
 ```
 
-## 8. Open PR
+## 9. Open PR
 
 Push and open PR titled `Release vX.Y.Z` or `Prepare X.Y.Z release`.
 
-## 9. Tag after merge
+## 10. Tag after merge
 
 ```bash
 git tag -s vX.Y.Z -m "Version X.Y.Z
