@@ -25,6 +25,15 @@ impl CheckResult {
             CheckResult::KernelUpdate => "Kernel got updated. You should reboot your system!",
         }
     }
+
+    pub fn urgency(&self) -> notify_rust::Urgency {
+        match self {
+            CheckResult::Nothing => notify_rust::Urgency::Low,
+            CheckResult::RestartSession => notify_rust::Urgency::Low,
+            CheckResult::Reboot => notify_rust::Urgency::Normal,
+            CheckResult::KernelUpdate => notify_rust::Urgency::Critical,
+        }
+    }
 }
 
 pub trait Check {
@@ -69,5 +78,15 @@ mod test {
     fn test_body_distinguishes_reboot_reason() {
         // The summary is shared, but the body should explain the actual cause.
         assert_ne!(CheckResult::Reboot.body(), CheckResult::KernelUpdate.body());
+    }
+
+    #[test]
+    fn test_urgency_levels() {
+        use notify_rust::Urgency;
+
+        assert_eq!(CheckResult::Nothing.urgency(), Urgency::Low);
+        assert_eq!(CheckResult::RestartSession.urgency(), Urgency::Low);
+        assert_eq!(CheckResult::Reboot.urgency(), Urgency::Normal);
+        assert_eq!(CheckResult::KernelUpdate.urgency(), Urgency::Critical);
     }
 }

@@ -5,6 +5,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+ * Add `--notification-urgency` flag to configure desktop notification urgency.
+   `auto` (default) sets urgency based on the check result: kernel updates are
+   critical, reboots are normal, and session restarts are low. It can also be
+   set to a fixed level with `low`, `normal`, or `critical`.
+
 ## [v1.2.0] - 2026-11-03
 
  * Support Arch Linux ARM kernel package names (e.g. `linux-aarch64`) (#252)
