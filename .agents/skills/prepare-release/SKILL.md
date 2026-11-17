@@ -56,15 +56,19 @@ cargo update --workspace
 git add Cargo.toml Cargo.lock && git commit -m "Bump version to X.Y.Z"
 ```
 
-## 7. Optional: tick off ideas
+## 7. Check README.md
+
+Look for hardcoded version references or outdated examples. Most version references are dynamic badges, but check manually just in case.
+
+## 8. Optional: tick off ideas
 
 If any `improvement-ideas.md` items were implemented, mark them `✅`.
 
-## 8. Open PR (by user)
+## 9. Open PR (by user)
 
 Ask user to push and open PR titled `Release vX.Y.Z` or `Prepare X.Y.Z release`.
 
-## 9. Tag after merge (by user)
+## 10. Tag after merge (by user)
 
 ```bash
 git tag -s vX.Y.Z -m "Version X.Y.Z
