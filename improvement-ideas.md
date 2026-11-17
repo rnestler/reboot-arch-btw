@@ -43,8 +43,10 @@ support for a config file (e.g.
 
 - ✅ **List all updated packages**: Implemented — in verbose mode all matching
   updated packages are now reported instead of only the first one.
-- **Urgency levels in notifications**: Set `notify-rust` urgency to `Critical`
-  for kernel updates, `Normal` for reboots, and `Low` for session restarts.
+- ✅ **Urgency levels in notifications**: Implemented. `notify-rust` urgency is
+  set to `Critical` for kernel updates, `Normal` for reboots, and `Low` for
+  session restarts. The `--notification-urgency` flag allows overriding this
+  with a fixed level.
 
 ## 5. Watch / Polling Mode
 
