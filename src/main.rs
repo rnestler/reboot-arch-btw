@@ -59,6 +59,15 @@ struct Args {
     #[clap(long, default_value = "default")]
     notification_timeout: Timeout,
 
+    /// Set the urgency level for desktop notifications.
+    ///
+    /// * "auto" sets the urgency based on the check result (the default):
+    ///   kernel updates are critical, reboots are normal, session restarts are low.
+    ///
+    /// * "low", "normal", or "critical" sets a fixed urgency level for all notifications.
+    #[clap(long, default_value = "auto")]
+    notification_urgency: NotificationUrgency,
+
     /// Comma separated list of packages where we should reboot after an upgrade.
     #[clap(
         long,
@@ -74,15 +83,6 @@ struct Args {
         default_value = "xorg-server,xorg-xwayland"
     )]
     session_restart_packages: Vec<String>,
-
-    /// Set the urgency level for desktop notifications.
-    ///
-    /// * "auto" sets the urgency based on the check result (the default):
-    ///   kernel updates are critical, reboots are normal, session restarts are low.
-    ///
-    /// * "low", "normal", or "critical" sets a fixed urgency level for all notifications.
-    #[clap(long, default_value = "auto")]
-    notification_urgency: NotificationUrgency,
 
     /// Print kernel version info and show updated packages.
     #[clap(short, long)]
