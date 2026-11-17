@@ -116,6 +116,7 @@ fn main() {
             Notification::new()
                 .summary(result.summary())
                 .body(result.body())
+                .urgency(result.urgency())
                 .timeout(args.notification_timeout)
                 .show()
                 .map_err(|e| error!("Couldn't send notification: {}", e))
